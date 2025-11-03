@@ -36,6 +36,16 @@ namespace winrt::Windows::Xbox::Input::implementation
             staticGamepads.Append(dummyGamepad);
         }
 
+        HWND hwnd = GetFocus( );
+        ShowCursor(FALSE);
+        RECT rc;
+        GetClientRect(hwnd, &rc);
+        POINT tl = { rc.left, rc.top };
+        POINT br = { rc.right, rc.bottom };
+        MapWindowPoints(hwnd, nullptr, &tl, 1);
+        MapWindowPoints(hwnd, nullptr, &br, 1);
+        RECT screenRect = { tl.x, tl.y, br.x, br.y };
+        ClipCursor(&screenRect);
         ShowCursor(FALSE);
 
         return staticGamepads.GetView( );
@@ -209,20 +219,37 @@ namespace winrt::Windows::Xbox::Input::implementation
         * Mouse Input
         */
         POINT pos;
-        int screenW = GetSystemMetrics(SM_CXSCREEN);
-        int screenH = GetSystemMetrics(SM_CYSCREEN);
-        int centerX = screenW / 2;
-        int centerY = screenH / 2;
-
         GetCursorPos(&pos);
 
-        float dx = pos.x - centerX;
-        float dy = pos.y - centerY;
+        if (firstFrame) {
+            prev = pos;
+            firstFrame = false;
+        }
 
-        reading.RightThumbstickX = std::clamp(dx / 50.0f, -1.0f, 1.0f);
-        reading.RightThumbstickY = std::clamp(-dy / 50.0f, -1.0f, 1.0f);
+        int dx = pos.x - prev.x;
+        int dy = pos.y - prev.y;
 
+        deltasumX += dx;
+        deltasumY += dy;
+        prev = pos;
+        
+        int centerX = GetSystemMetrics(SM_CXSCREEN) / 2;
+        int centerY = GetSystemMetrics(SM_CYSCREEN) / 2;
         SetCursorPos(centerX, centerY);
+        prev.x = centerX;
+        prev.y = centerY;
+        
+        auto sign = [](float v) { return (v > 0) - (v < 0); };
+        float x = -std::exp((-1.0f / 20.0f) * std::abs(deltasumX)) + 1.0f;
+        float y = -std::exp((-1.0f / 20.0f) * std::abs(deltasumY)) + 1.0f;
+        x *= sign(deltasumX);
+        y *= -sign(deltasumY);
+
+        reading.RightThumbstickX = std::clamp(x, -1.0f, 1.0f);
+        reading.RightThumbstickY = std::clamp(y, -1.0f, 1.0f);
+
+        deltasumX = 0.0f;
+        deltasumY = 0.0f;
 
         return reading;
     }

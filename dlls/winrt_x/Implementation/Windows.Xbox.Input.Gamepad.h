@@ -33,6 +33,10 @@ namespace winrt::Windows::Xbox::Input::implementation
         inline static winrt::Windows::Foundation::Collections::IVector<winrt::Windows::Xbox::Input::IGamepad> staticGamepads = { nullptr };
         uint64_t m_id{ 0 };
         RawGamepadReading reading = {};
+        POINT prev{ 0, 0 };
+        float deltasumX = 0.0f;
+        float deltasumY = 0.0f;
+        bool firstFrame = true;
 
         inline static std::pair<WORD, GamepadButtons> const gamepadButtons[] =
         {
