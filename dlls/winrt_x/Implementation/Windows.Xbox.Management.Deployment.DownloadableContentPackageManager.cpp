@@ -6,7 +6,7 @@ namespace winrt::Windows::Xbox::Management::Deployment::implementation
 {
     winrt::Windows::Foundation::Collections::IVectorView<winrt::Windows::Xbox::Management::Deployment::IDownloadableContentPackage> DownloadableContentPackageManager::FindPackages(winrt::Windows::Xbox::Management::Deployment::InstalledPackagesFilter const& filter)
     {
-        return winrt::single_threaded_vector<winrt::Windows::Xbox::Management::Deployment::IDownloadableContentPackage>( ).GetView();
+        return winrt::single_threaded_vector<winrt::Windows::Xbox::Management::Deployment::IDownloadableContentPackage>().GetView();
     }
     winrt::event_token DownloadableContentPackageManager::DownloadableContentPackageInstallCompleted(winrt::Windows::Xbox::Management::Deployment::DownloadableContentPackageInstallCompletedEventHandler const& handler)
     {

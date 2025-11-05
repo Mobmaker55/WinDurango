@@ -270,7 +270,7 @@ static bool ImGui_ImplUwp_InitEx(ABI::Windows::UI::Core::ICoreWindow* core_windo
                         SUCCEEDED(result)
                         && SUCCEEDED(controlInput->QueryInterface(&bd->PointerInputSource))
                         && SUCCEEDED(controlInput->QueryInterface(&bd->KeyboardInputSource))
-                    )
+                   )
                     {
                         bd->PointerInputSource->add_PointerMoved(Callback<PointerMoved_Callback>(PointerMoved).Get(), &bd->PointerMovedToken);
                         bd->PointerInputSource->add_PointerExited(Callback<PointerExited_Callback>(PointerExited).Get(), &bd->PointerExitedToken);

@@ -22,7 +22,7 @@ If you do not agree to these terms, you do not have permission to use this code.
 HRESULT wd::dxgi_device::GetParent(const IID& riid, void** ppParent)
 {
 	HRESULT hr = wrapped_interface->GetParent(riid, ppParent);
-	AddRef( );
+	AddRef();
 
 	if (riid == __uuidof(IDXGIAdapter)) {
 		*ppParent = new dxgi_adapter(static_cast<IDXGIAdapter*>(*ppParent));

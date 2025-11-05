@@ -45,7 +45,7 @@ namespace wd
 	class device_child_x : wdi::ID3D11DeviceChild
 	{
 	public:
-		device_child_x(::ID3D11DeviceChild* device_child) : wrapped_interface(device_child) { wrapped_interface->AddRef( ); }
+		device_child_x(::ID3D11DeviceChild* device_child) : wrapped_interface(device_child) { wrapped_interface->AddRef(); }
 
 		void STDMETHODCALLTYPE GetDevice(ID3D11Device** ppDevice) override
 		{

@@ -1,126 +1,147 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="kernelx.cpp" />
-    <ClCompile Include="pch.cpp" />
     <ClCompile Include="CoreWindowWrapperX.cpp">
-      <Filter>Windows.UI.Core</Filter>
+      <Filter>Source Files\Windows.UI.Core</Filter>
     </ClCompile>
     <ClCompile Include="CoreApplicationWrapperX.cpp">
-      <Filter>Windows.ApplicationModel.Core\CoreApplication</Filter>
+      <Filter>Source Files\Windows.ApplicationModel.Core\CoreApplication</Filter>
     </ClCompile>
     <ClCompile Include="FrameworkViewWrapper.cpp">
-      <Filter>Windows.ApplicationModel.Core\FrameworkView</Filter>
+      <Filter>Source Files\Windows.ApplicationModel.Core\FrameworkView</Filter>
     </ClCompile>
     <ClCompile Include="FrameworkViewSourceWrapper.cpp">
-      <Filter>Windows.ApplicationModel.Core\FrameworkViewSource</Filter>
+      <Filter>Source Files\Windows.ApplicationModel.Core\FrameworkViewSource</Filter>
     </ClCompile>
     <ClCompile Include="CurrentAppWrapper.cpp">
-      <Filter>Windows.ApplicationModel.Store\CurrentApp</Filter>
+      <Filter>Source Files\Windows.ApplicationModel.Store\CurrentApp</Filter>
     </ClCompile>
     <ClCompile Include="MMXboxDeviceEnumeratorWrapper.cpp">
-      <Filter>MMDeviceEnumerator\Xbox</Filter>
+      <Filter>Source Files\MMDeviceEnumerator\Xbox</Filter>
     </ClCompile>
     <ClCompile Include="MMDeviceEnumeratorWrapper.cpp">
-      <Filter>MMDeviceEnumerator</Filter>
+      <Filter>Source Files\MMDeviceEnumerator</Filter>
     </ClCompile>
     <ClCompile Include="MMDeviceWrapper.cpp">
-      <Filter>MMDevice</Filter>
+      <Filter>Source Files\MMDevice</Filter>
     </ClCompile>
     <ClCompile Include="MMDeviceCollectionWrapper.cpp">
-      <Filter>MMDeviceEnumerator\MMDeviceCollection</Filter>
+      <Filter>Source Files\MMDeviceEnumerator\MMDeviceCollection</Filter>
     </ClCompile>
-    <ClCompile Include="NetworkInformationWrapperX.cpp" />
+    <ClCompile Include="kernelx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkInformationWrapperX.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="framework.h" />
-    <ClInclude Include="kernelx.h" />
-    <ClInclude Include="pch.h" />
     <ClInclude Include="ICoreWindowX.h">
-      <Filter>Windows.UI.Core</Filter>
+      <Filter>Source Files\Windows.UI.Core</Filter>
     </ClInclude>
     <ClInclude Include="CoreWindowWrapperX.h">
-      <Filter>Windows.UI.Core</Filter>
+      <Filter>Source Files\Windows.UI.Core</Filter>
     </ClInclude>
-    <ClInclude Include="hooks.h" />
-    <ClInclude Include="utils.h" />
     <ClInclude Include="ICoreApplicationX.h">
-      <Filter>Windows.ApplicationModel.Core\CoreApplication</Filter>
+      <Filter>Source Files\Windows.ApplicationModel.Core\CoreApplication</Filter>
     </ClInclude>
     <ClInclude Include="CoreApplicationWrapperX.h">
-      <Filter>Windows.ApplicationModel.Core\CoreApplication</Filter>
+      <Filter>Source Files\Windows.ApplicationModel.Core\CoreApplication</Filter>
     </ClInclude>
     <ClInclude Include="ICoreApplicationResourceAvailabilityX.h">
-      <Filter>Windows.ApplicationModel.Core</Filter>
+      <Filter>Source Files\Windows.ApplicationModel.Core</Filter>
     </ClInclude>
     <ClInclude Include="FrameworkViewWrapper.h">
-      <Filter>Windows.ApplicationModel.Core\FrameworkView</Filter>
+      <Filter>Source Files\Windows.ApplicationModel.Core\FrameworkView</Filter>
     </ClInclude>
     <ClInclude Include="FrameworkViewSourceWrapper.h">
-      <Filter>Windows.ApplicationModel.Core\FrameworkViewSource</Filter>
+      <Filter>Source Files\Windows.ApplicationModel.Core\FrameworkViewSource</Filter>
     </ClInclude>
     <ClInclude Include="CurrentAppWrapper.hpp">
-      <Filter>Windows.ApplicationModel.Store\CurrentApp</Filter>
+      <Filter>Source Files\Windows.ApplicationModel.Store\CurrentApp</Filter>
     </ClInclude>
     <ClInclude Include="ICoreApplicationGpuPolicy.h">
-      <Filter>Windows.ApplicationModel.Core</Filter>
+      <Filter>Source Files\Windows.ApplicationModel.Core</Filter>
     </ClInclude>
     <ClInclude Include="MMXboxDeviceEnumeratorWrapper.h">
-      <Filter>MMDeviceEnumerator\Xbox</Filter>
+      <Filter>Source Files\MMDeviceEnumerator\Xbox</Filter>
     </ClInclude>
     <ClInclude Include="MMDeviceEnumeratorWrapper.h">
-      <Filter>MMDeviceEnumerator</Filter>
+      <Filter>Source Files\MMDeviceEnumerator</Filter>
     </ClInclude>
     <ClInclude Include="MMDeviceWrapper.h">
-      <Filter>MMDevice</Filter>
+      <Filter>Source Files\MMDevice</Filter>
     </ClInclude>
     <ClInclude Include="MMDeviceCollectionWrapper.h">
-      <Filter>MMDeviceEnumerator\MMDeviceCollection</Filter>
+      <Filter>Source Files\MMDeviceEnumerator\MMDeviceCollection</Filter>
     </ClInclude>
-    <ClInclude Include="NetworkInformationWrapperX.h" />
+    <ClInclude Include="framework.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="hooks.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="kernelx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkInformationWrapperX.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Exports.def" />
-    <None Include=".editorconfig" />
-    <None Include="cpp.hint" />
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Headers">
-      <UniqueIdentifier>{1fd01865-5063-43f8-8e37-2d5b0dd81b88}</UniqueIdentifier>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{1aeaa915-cada-4f79-b701-3f754fd44287}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Windows.UI.Core">
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4f776a4c-e99a-4851-9f0e-e2c9aee34297}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Windows.UI.Core">
       <UniqueIdentifier>{bb53c96d-38a7-46b6-bfc9-84fc5b33678e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Windows.ApplicationModel.Core">
-      <UniqueIdentifier>{22d419bf-d552-4ab7-a078-94a3d47e5051}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Windows.ApplicationModel.Core\CoreApplication">
-      <UniqueIdentifier>{ee124397-8dbc-48c3-869f-10201a7d04fd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Windows.ApplicationModel.Core\FrameworkView">
-      <UniqueIdentifier>{1dfef95c-7e52-4c34-862d-18e9cd60a9de}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Windows.ApplicationModel.Core\FrameworkViewSource">
-      <UniqueIdentifier>{c767c192-a92b-4536-b8a9-51f27fa78800}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Windows.ApplicationModel.Store">
+    <Filter Include="Source Files\Windows.ApplicationModel.Store">
       <UniqueIdentifier>{0ea04282-48ba-45bf-a20f-e7d51e2651c0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Windows.ApplicationModel.Store\CurrentApp">
+    <Filter Include="Source Files\Windows.ApplicationModel.Store\CurrentApp">
       <UniqueIdentifier>{19e1cefa-5dbe-43ed-a9ad-b22278e05c1a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MMDeviceEnumerator">
+    <Filter Include="Source Files\Windows.ApplicationModel.Core">
+      <UniqueIdentifier>{22d419bf-d552-4ab7-a078-94a3d47e5051}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Windows.ApplicationModel.Core\CoreApplication">
+      <UniqueIdentifier>{ee124397-8dbc-48c3-869f-10201a7d04fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Windows.ApplicationModel.Core\FrameworkView">
+      <UniqueIdentifier>{1dfef95c-7e52-4c34-862d-18e9cd60a9de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Windows.ApplicationModel.Core\FrameworkViewSource">
+      <UniqueIdentifier>{c767c192-a92b-4536-b8a9-51f27fa78800}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MMDeviceEnumerator">
       <UniqueIdentifier>{28b69cd1-c8f0-4a87-991d-b7cc93451aa7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MMDeviceEnumerator\Xbox">
+    <Filter Include="Source Files\MMDeviceEnumerator\Xbox">
       <UniqueIdentifier>{58f8ec7f-d4c1-43e8-a2a9-81a75350ae82}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MMDevice">
-      <UniqueIdentifier>{b5806f6f-3fc6-4043-b6a0-8c59222992fc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MMDeviceEnumerator\MMDeviceCollection">
+    <Filter Include="Source Files\MMDeviceEnumerator\MMDeviceCollection">
       <UniqueIdentifier>{8e5db7be-5063-4c0f-86f8-0d165dbf6b47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MMDevice">
+      <UniqueIdentifier>{b5806f6f-3fc6-4043-b6a0-8c59222992fc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

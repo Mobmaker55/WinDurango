@@ -12,7 +12,7 @@
 
 winrt::Windows::Foundation::IAsyncAction WinDurango::impl::ConnectedStorage::CreateContainer(winrt::hstring name) const
 {
-    if (m_storagePath.empty( )) {
+    if (m_storagePath.empty()) {
         LOG_ERROR("[ConnectedStorage] Storage path not initialized\n");
         co_return;
     }
@@ -25,11 +25,11 @@ winrt::Windows::Foundation::IAsyncAction WinDurango::impl::ConnectedStorage::Cre
         {
             auto folder = co_await winrt::Windows::Storage::StorageFolder::GetFolderFromPathAsync(m_storagePath);
             co_await folder.CreateFolderAsync(name, winrt::Windows::Storage::CreationCollisionOption::OpenIfExists);
-            LOG_INFO("[ConnectedStorage] Container %S created\n", name.c_str( ));
+            LOG_INFO("[ConnectedStorage] Container %S created\n", name.c_str());
         }
         catch (winrt::hresult_error const& ex)
         {
-            LOG_ERROR("[ConnectedStorage] Failed to create container %S: %S\n", name.c_str( ), ex.message( ).c_str( ));
+            LOG_ERROR("[ConnectedStorage] Failed to create container %S: %S\n", name.c_str(), ex.message().c_str());
             throw;
         }
     }
@@ -44,7 +44,7 @@ winrt::Windows::Foundation::IAsyncAction WinDurango::impl::ConnectedStorage::Rea
         co_return;
     }
 
-    if (m_storagePath.empty( )) {
+    if (m_storagePath.empty()) {
         LOG_ERROR("[ConnectedStorage] Storage path not initialized\n");
         co_return;
     }
@@ -53,7 +53,7 @@ winrt::Windows::Foundation::IAsyncAction WinDurango::impl::ConnectedStorage::Rea
 
     if (!co_await DoesFolderExist(containerPath)) {
         co_await CreateContainer(containerName);
-        LOG_INFO("[ConnectedStorage] Container %S created during read\n", containerName.c_str( ));
+        LOG_INFO("[ConnectedStorage] Container %S created during read\n", containerName.c_str());
     }
 
     try
@@ -64,11 +64,11 @@ winrt::Windows::Foundation::IAsyncAction WinDurango::impl::ConnectedStorage::Rea
         {
             try
             {
-                auto fileName = pair.Key( );
-                auto dataBuffer = pair.Value( );
+                auto fileName = pair.Key();
+                auto dataBuffer = pair.Value();
 
                 if (dataBuffer == nullptr) {
-                    LOG_WARNING("[ConnectedStorage] Null buffer for file %S\n", fileName.c_str( ));
+                    LOG_WARNING("[ConnectedStorage] Null buffer for file %S\n", fileName.c_str());
                     continue;
                 }
 
@@ -76,41 +76,41 @@ winrt::Windows::Foundation::IAsyncAction WinDurango::impl::ConnectedStorage::Rea
                 auto fileBuffer = co_await winrt::Windows::Storage::FileIO::ReadBufferAsync(file);
 
                 // Validate buffer capacity
-                if (dataBuffer.Capacity( ) < fileBuffer.Length( )) {
+                if (dataBuffer.Capacity() < fileBuffer.Length()) {
                     LOG_ERROR("[ConnectedStorage] Buffer too small for file %S (need %u, have %u)\n",
-                        fileName.c_str( ), fileBuffer.Length( ), dataBuffer.Capacity( ));
+                        fileName.c_str(), fileBuffer.Length(), dataBuffer.Capacity());
                     continue;
                 }
 
                 // Get raw buffer pointers
-                auto bufferByteAccess = fileBuffer.as<Windows::Storage::Streams::IBufferByteAccess>( );
+                auto bufferByteAccess = fileBuffer.as<Windows::Storage::Streams::IBufferByteAccess>();
                 uint8_t* fileData = nullptr;
                 bufferByteAccess->Buffer(&fileData);
 
-                auto dataBufferByteAccess = dataBuffer.as<Windows::Storage::Streams::IBufferByteAccess>( );
+                auto dataBufferByteAccess = dataBuffer.as<Windows::Storage::Streams::IBufferByteAccess>();
                 uint8_t* dataBufferData = nullptr;
                 dataBufferByteAccess->Buffer(&dataBufferData);
 
                 if (fileData != nullptr && dataBufferData != nullptr) {
-                    memcpy(dataBufferData, fileData, fileBuffer.Length( ));
-                    dataBuffer.Length(fileBuffer.Length( )); // Set the actual data length
-                    LOG_INFO("[ConnectedStorage] Successfully read file %S (%u bytes)\n", fileName.c_str( ), fileBuffer.Length( ));
+                    memcpy(dataBufferData, fileData, fileBuffer.Length());
+                    dataBuffer.Length(fileBuffer.Length()); // Set the actual data length
+                    LOG_INFO("[ConnectedStorage] Successfully read file %S (%u bytes)\n", fileName.c_str(), fileBuffer.Length());
                 }
                 else {
-                    LOG_ERROR("[ConnectedStorage] Failed to get buffer pointers for file %S\n", fileName.c_str( ));
+                    LOG_ERROR("[ConnectedStorage] Failed to get buffer pointers for file %S\n", fileName.c_str());
                 }
             }
             catch (winrt::hresult_error const& ex)
             {
                 LOG_ERROR("[ConnectedStorage] Failed to read file %S: %S (0x%08X)\n",
-                    pair.Key( ).c_str( ), ex.message( ).c_str( ), static_cast<uint32_t>(ex.code( )));
+                    pair.Key().c_str(), ex.message().c_str(), static_cast<uint32_t>(ex.code()));
             }
         }
     }
     catch (winrt::hresult_error const& ex)
     {
         LOG_ERROR("[ConnectedStorage] Failed to access container %S: %S\n",
-            containerName.c_str( ), ex.message( ).c_str( ));
+            containerName.c_str(), ex.message().c_str());
         throw;
     }
 }
@@ -121,7 +121,7 @@ winrt::Windows::Foundation::IAsyncAction WinDurango::impl::ConnectedStorage::Upl
     winrt::Windows::Foundation::Collections::IIterable<winrt::hstring> blobsToDelete,
     winrt::hstring displayName) const
 {
-    if (m_storagePath.empty( )) {
+    if (m_storagePath.empty()) {
         LOG_ERROR("[ConnectedStorage] Storage path not initialized\n");
         co_return;
     }
@@ -130,7 +130,7 @@ winrt::Windows::Foundation::IAsyncAction WinDurango::impl::ConnectedStorage::Upl
 
     if (!co_await DoesFolderExist(containerPath)) {
         co_await CreateContainer(containerName);
-        LOG_INFO("[ConnectedStorage] Container %S created during upload\n", containerName.c_str( ));
+        LOG_INFO("[ConnectedStorage] Container %S created during upload\n", containerName.c_str());
     }
 
     try
@@ -138,18 +138,18 @@ winrt::Windows::Foundation::IAsyncAction WinDurango::impl::ConnectedStorage::Upl
         auto folder = co_await winrt::Windows::Storage::StorageFolder::GetFolderFromPathAsync(containerPath);
 
         // Write display name if provided
-        if (!displayName.empty( ))
+        if (!displayName.empty())
         {
             try
             {
                 auto file = co_await folder.CreateFileAsync(L"wd_displayname.txt",
                     winrt::Windows::Storage::CreationCollisionOption::ReplaceExisting);
                 co_await winrt::Windows::Storage::FileIO::WriteTextAsync(file, displayName);
-                LOG_INFO("[ConnectedStorage] Display name written: %S\n", displayName.c_str( ));
+                LOG_INFO("[ConnectedStorage] Display name written: %S\n", displayName.c_str());
             }
             catch (winrt::hresult_error const& ex)
             {
-                LOG_ERROR("[ConnectedStorage] Failed to write display name: %S\n", ex.message( ).c_str( ));
+                LOG_ERROR("[ConnectedStorage] Failed to write display name: %S\n", ex.message().c_str());
             }
         }
 
@@ -160,23 +160,23 @@ winrt::Windows::Foundation::IAsyncAction WinDurango::impl::ConnectedStorage::Upl
             {
                 try
                 {
-                    auto fileName = pair.Key( );
-                    auto dataBuffer = pair.Value( );
+                    auto fileName = pair.Key();
+                    auto dataBuffer = pair.Value();
 
                     if (dataBuffer == nullptr) {
-                        LOG_WARNING("[ConnectedStorage] Null buffer for file %S, skipping\n", fileName.c_str( ));
+                        LOG_WARNING("[ConnectedStorage] Null buffer for file %S, skipping\n", fileName.c_str());
                         continue;
                     }
 
                     auto file = co_await folder.CreateFileAsync(fileName,
                         winrt::Windows::Storage::CreationCollisionOption::ReplaceExisting);
                     co_await winrt::Windows::Storage::FileIO::WriteBufferAsync(file, dataBuffer);
-                    LOG_INFO("[ConnectedStorage] Written file %S (%u bytes)\n", fileName.c_str( ), dataBuffer.Length( ));
+                    LOG_INFO("[ConnectedStorage] Written file %S (%u bytes)\n", fileName.c_str(), dataBuffer.Length());
                 }
                 catch (winrt::hresult_error const& ex)
                 {
                     LOG_ERROR("[ConnectedStorage] Failed to write file %S: %S\n",
-                        pair.Key( ).c_str( ), ex.message( ).c_str( ));
+                        pair.Key().c_str(), ex.message().c_str());
                 }
             }
         }
@@ -189,15 +189,15 @@ winrt::Windows::Foundation::IAsyncAction WinDurango::impl::ConnectedStorage::Upl
                 try
                 {
                     auto file = co_await folder.GetFileAsync(blobName);
-                    co_await file.DeleteAsync( );
-                    LOG_INFO("[ConnectedStorage] Deleted file %S\n", blobName.c_str( ));
+                    co_await file.DeleteAsync();
+                    LOG_INFO("[ConnectedStorage] Deleted file %S\n", blobName.c_str());
                 }
                 catch (winrt::hresult_error const& ex)
                 {
                     // File might not exist, which is acceptable
-                    if (ex.code( ) != HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND)) {
+                    if (ex.code() != HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND)) {
                         LOG_ERROR("[ConnectedStorage] Failed to delete file %S: %S\n",
-                            blobName.c_str( ), ex.message( ).c_str( ));
+                            blobName.c_str(), ex.message().c_str());
                     }
                 }
             }
@@ -206,7 +206,7 @@ winrt::Windows::Foundation::IAsyncAction WinDurango::impl::ConnectedStorage::Upl
     catch (winrt::hresult_error const& ex)
     {
         LOG_ERROR("[ConnectedStorage] Failed to access container %S: %S\n",
-            containerName.c_str( ), ex.message( ).c_str( ));
+            containerName.c_str(), ex.message().c_str());
         throw;
     }
 }
@@ -217,28 +217,28 @@ WinDurango::impl::ConnectedStorage::GetBlobInfoAsync(
     winrt::hstring blobNamePrefix)
 {
     winrt::Windows::Foundation::Collections::IVector<winrt::Windows::Xbox::Storage::BlobInfo> blobInfoVector =
-        winrt::single_threaded_vector<winrt::Windows::Xbox::Storage::BlobInfo>( );
+        winrt::single_threaded_vector<winrt::Windows::Xbox::Storage::BlobInfo>();
 
-    if (m_storagePath.empty( )) {
+    if (m_storagePath.empty()) {
         LOG_ERROR("[ConnectedStorage] Storage path not initialized\n");
-        co_return blobInfoVector.GetView( );
+        co_return blobInfoVector.GetView();
     }
 
     winrt::hstring storagePath = m_storagePath + L"\\" + parentContainerName;
 
     if (!co_await DoesFolderExist(storagePath)) {
-        LOG_INFO("[ConnectedStorage] Container %S does not exist for blob query\n", parentContainerName.c_str( ));
-        co_return blobInfoVector.GetView( );
+        LOG_INFO("[ConnectedStorage] Container %S does not exist for blob query\n", parentContainerName.c_str());
+        co_return blobInfoVector.GetView();
     }
 
     try
     {
         auto storageFolder = co_await winrt::Windows::Storage::StorageFolder::GetFolderFromPathAsync(storagePath);
-        auto files = co_await storageFolder.GetFilesAsync( );
+        auto files = co_await storageFolder.GetFilesAsync();
 
         for (auto file : files)
         {
-            std::wstring_view fileName{ file.Name( ) };
+            std::wstring_view fileName{ file.Name() };
 
             // Skip display name metadata file
             if (fileName == L"wd_displayname.txt") {
@@ -246,55 +246,55 @@ WinDurango::impl::ConnectedStorage::GetBlobInfoAsync(
             }
 
             // Check prefix match
-            if (!blobNamePrefix.empty( ) && !fileName.starts_with(blobNamePrefix)) {
+            if (!blobNamePrefix.empty() && !fileName.starts_with(blobNamePrefix)) {
                 continue;
             }
 
             try
             {
-                auto fileProperties = co_await file.GetBasicPropertiesAsync( );
-                uint32_t size = static_cast<uint32_t>(fileProperties.Size( ));
-                blobInfoVector.Append({ file.Name( ), size });
+                auto fileProperties = co_await file.GetBasicPropertiesAsync();
+                uint32_t size = static_cast<uint32_t>(fileProperties.Size());
+                blobInfoVector.Append({ file.Name(), size });
             }
             catch (winrt::hresult_error const& ex)
             {
                 LOG_ERROR("[ConnectedStorage] Failed to get properties for %S: %S\n",
-                    file.Name( ).c_str( ), ex.message( ).c_str( ));
+                    file.Name().c_str(), ex.message().c_str());
             }
         }
     }
     catch (winrt::hresult_error const& ex)
     {
         LOG_ERROR("[ConnectedStorage] Failed to query blobs in container %S: %S\n",
-            parentContainerName.c_str( ), ex.message( ).c_str( ));
+            parentContainerName.c_str(), ex.message().c_str());
     }
 
-    co_return blobInfoVector.GetView( );
+    co_return blobInfoVector.GetView();
 }
 
 winrt::Windows::Foundation::IAsyncOperation<winrt::Windows::Foundation::Collections::IVectorView<winrt::Windows::Xbox::Storage::ContainerInfo2>>
-WinDurango::impl::ConnectedStorage::GetContainerInfo2Async( )
+WinDurango::impl::ConnectedStorage::GetContainerInfo2Async()
 {
     winrt::Windows::Foundation::Collections::IVector<winrt::Windows::Xbox::Storage::ContainerInfo2> containerInfoVector =
-        winrt::single_threaded_vector<winrt::Windows::Xbox::Storage::ContainerInfo2>( );
+        winrt::single_threaded_vector<winrt::Windows::Xbox::Storage::ContainerInfo2>();
 
-    if (m_storagePath.empty( )) {
+    if (m_storagePath.empty()) {
         LOG_ERROR("[ConnectedStorage] Storage path not initialized\n");
-        co_return containerInfoVector.GetView( );
+        co_return containerInfoVector.GetView();
     }
 
     try
     {
         auto storageFolder = co_await winrt::Windows::Storage::StorageFolder::GetFolderFromPathAsync(m_storagePath);
-        auto folders = co_await storageFolder.GetFoldersAsync( );
+        auto folders = co_await storageFolder.GetFoldersAsync();
 
         for (auto folder : folders)
         {
             try
             {
-                auto folderProperties = co_await folder.GetBasicPropertiesAsync( );
-                uint64_t size = folderProperties.Size( );
-                winrt::Windows::Foundation::DateTime date = folderProperties.DateModified( );
+                auto folderProperties = co_await folder.GetBasicPropertiesAsync();
+                uint64_t size = folderProperties.Size();
+                winrt::Windows::Foundation::DateTime date = folderProperties.DateModified();
 
                 // Check for custom display name
                 winrt::hstring displayName = {};
@@ -308,34 +308,34 @@ WinDurango::impl::ConnectedStorage::GetContainerInfo2Async( )
                     catch (winrt::hresult_error const& ex)
                     {
                         LOG_WARNING("[ConnectedStorage] Failed to read display name for %S: %S\n",
-                            folder.Name( ).c_str( ), ex.message( ).c_str( ));
+                            folder.Name().c_str(), ex.message().c_str());
                     }
                 }
 
-                if (displayName.empty( )) {
-                    displayName = folder.DisplayName( );
+                if (displayName.empty()) {
+                    displayName = folder.DisplayName();
                 }
 
-                containerInfoVector.Append({ folder.Name( ), size, displayName, date, false });
+                containerInfoVector.Append({ folder.Name(), size, displayName, date, false });
             }
             catch (winrt::hresult_error const& ex)
             {
                 LOG_ERROR("[ConnectedStorage] Failed to get info for container %S: %S\n",
-                    folder.Name( ).c_str( ), ex.message( ).c_str( ));
+                    folder.Name().c_str(), ex.message().c_str());
             }
         }
     }
     catch (winrt::hresult_error const& ex)
     {
-        LOG_ERROR("[ConnectedStorage] Failed to query containers: %S\n", ex.message( ).c_str( ));
+        LOG_ERROR("[ConnectedStorage] Failed to query containers: %S\n", ex.message().c_str());
     }
 
-    co_return containerInfoVector.GetView( );
+    co_return containerInfoVector.GetView();
 }
 
 winrt::Windows::Foundation::IAsyncAction WinDurango::impl::ConnectedStorage::DeleteContainer(winrt::hstring containerName)
 {
-    if (m_storagePath.empty( )) {
+    if (m_storagePath.empty()) {
         LOG_ERROR("[ConnectedStorage] Storage path not initialized\n");
         co_return;
     }
@@ -347,31 +347,31 @@ winrt::Windows::Foundation::IAsyncAction WinDurango::impl::ConnectedStorage::Del
         try
         {
             auto folder = co_await winrt::Windows::Storage::StorageFolder::GetFolderFromPathAsync(containerPath);
-            co_await folder.DeleteAsync( );
-            LOG_INFO("[ConnectedStorage] Container %S deleted\n", containerName.c_str( ));
+            co_await folder.DeleteAsync();
+            LOG_INFO("[ConnectedStorage] Container %S deleted\n", containerName.c_str());
         }
         catch (winrt::hresult_error const& ex)
         {
             LOG_ERROR("[ConnectedStorage] Failed to delete container %S: %S\n",
-                containerName.c_str( ), ex.message( ).c_str( ));
+                containerName.c_str(), ex.message().c_str());
             throw;
         }
     }
     else
     {
-        LOG_WARNING("[ConnectedStorage] Container %S does not exist, cannot delete\n", containerName.c_str( ));
+        LOG_WARNING("[ConnectedStorage] Container %S does not exist, cannot delete\n", containerName.c_str());
     }
 }
 
-winrt::hstring WinDurango::impl::ConnectedStorage::ObtainPackageName( )
+winrt::hstring WinDurango::impl::ConnectedStorage::ObtainPackageName()
 {
     try
     {
-        return winrt::Windows::ApplicationModel::Package::Current( ).Id( ).FamilyName( );
+        return winrt::Windows::ApplicationModel::Package::Current().Id().FamilyName();
     }
     catch (winrt::hresult_error const& ex)
     {
-        LOG_ERROR("[ConnectedStorage] Failed to obtain package name: %S\n", ex.message( ).c_str( ));
+        LOG_ERROR("[ConnectedStorage] Failed to obtain package name: %S\n", ex.message().c_str());
         return {};
     }
 }
@@ -385,15 +385,15 @@ winrt::Windows::Foundation::IAsyncOperation<bool> WinDurango::impl::ConnectedSto
     }
     catch (winrt::hresult_error const& ex)
     {
-        if (ex.code( ) == HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND) ||
-            ex.code( ) == HRESULT_FROM_WIN32(ERROR_PATH_NOT_FOUND))
+        if (ex.code() == HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND) ||
+            ex.code() == HRESULT_FROM_WIN32(ERROR_PATH_NOT_FOUND))
         {
             co_return false;
         }
         else
         {
             LOG_ERROR("[ConnectedStorage] Unexpected error checking folder existence %S: %S\n",
-                path.c_str( ), ex.message( ).c_str( ));
+                path.c_str(), ex.message().c_str());
             throw;
         }
     }
@@ -410,14 +410,14 @@ winrt::Windows::Foundation::IAsyncOperation<bool> WinDurango::impl::ConnectedSto
     }
     catch (winrt::hresult_error const& ex)
     {
-        if (ex.code( ) == HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND))
+        if (ex.code() == HRESULT_FROM_WIN32(ERROR_FILE_NOT_FOUND))
         {
             co_return false;
         }
         else
         {
             LOG_ERROR("[ConnectedStorage] Unexpected error checking file existence %S: %S\n",
-                path.c_str( ), ex.message( ).c_str( ));
+                path.c_str(), ex.message().c_str());
             throw;
         }
     }
@@ -430,16 +430,16 @@ winrt::Windows::Foundation::IAsyncAction WinDurango::impl::ConnectedStorage::Cre
     // CRITICAL FIX: Removed co_await winrt::resume_background() to prevent threading violations
     // WinRT async operations are already non-blocking and must stay on correct apartment thread
 
-    winrt::hstring packageName = ObtainPackageName( );
-    if (packageName.empty( )) {
+    winrt::hstring packageName = ObtainPackageName();
+    if (packageName.empty()) {
         LOG_ERROR("[ConnectedStorage] Failed to obtain package name\n");
         co_return;
     }
 
     try
     {
-        auto localFolder = winrt::Windows::Storage::ApplicationData::Current( ).LocalFolder( );
-        winrt::hstring basePath = localFolder.Path( );
+        auto localFolder = winrt::Windows::Storage::ApplicationData::Current().LocalFolder();
+        winrt::hstring basePath = localFolder.Path();
         winrt::hstring winDurangoPath = basePath + L"\\WinDurango";
 
         // Create WinDurango folder if needed
@@ -466,7 +466,7 @@ winrt::Windows::Foundation::IAsyncAction WinDurango::impl::ConnectedStorage::Cre
     catch (winrt::hresult_error const& ex)
     {
         LOG_ERROR("[ConnectedStorage] Failed to create directories for %S: %S\n",
-            storageType, ex.message( ).c_str( ));
+            storageType, ex.message().c_str());
         throw;
     }
 }
@@ -476,11 +476,11 @@ winrt::Windows::Foundation::IAsyncAction WinDurango::impl::ConnectedStorage::Ini
     try
     {
         co_await CreateDirectories(name, m_storagePath);
-        LOG_INFO("[ConnectedStorage] User storage initialized at %S\n", m_storagePath.c_str( ));
+        LOG_INFO("[ConnectedStorage] User storage initialized at %S\n", m_storagePath.c_str());
     }
     catch (winrt::hresult_error const& ex)
     {
-        LOG_ERROR("[ConnectedStorage] Failed to initialize storage: %S\n", ex.message( ).c_str( ));
+        LOG_ERROR("[ConnectedStorage] Failed to initialize storage: %S\n", ex.message().c_str());
         throw;
     }
 }

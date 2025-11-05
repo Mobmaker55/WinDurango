@@ -32,11 +32,11 @@ namespace winrt::Windows::Xbox::UI::implementation
     winrt::Windows::Foundation::IAsyncOperation<winrt::Windows::Xbox::UI::AccountPickerResult> SystemUI::ShowAccountPickerAsync(winrt::Windows::Xbox::Input::IController controller, winrt::Windows::Xbox::UI::AccountPickerOptions options)
     {
 		LOG_WARNING("TODO: SystemUI::ShowAccountPickerAsync (this function just returns the first user in User::Users)\n");
-        co_return winrt::make<implementation::AccountPickerResult>( );
+        co_return winrt::make<implementation::AccountPickerResult>();
     }
     winrt::Windows::Foundation::IAsyncOperation<hstring> SystemUI::ShowVirtualKeyboardAsync(hstring defaultText, hstring titleText, hstring descriptionText, winrt::Windows::Xbox::UI::VirtualKeyboardInputScope inputScope)
     {
-        co_await resume_background( );
+        co_await resume_background();
 
 		if (!g_pD3D11XEventFunc && !g_pWDWaitForKeyboardFunc)
 		{

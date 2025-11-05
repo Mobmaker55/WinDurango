@@ -59,7 +59,7 @@ HRESULT CreateDevice(UINT Flags, wdi::ID3D11Device** ppDevice, wdi::ID3D11Device
     }
     else
     {
-        LOG_ERROR("failed to assign wrapped device, result code 0x%X, error code 0x%X\n", hr, GetLastError( ));
+        LOG_ERROR("failed to assign wrapped device, result code 0x%X, error code 0x%X\n", hr, GetLastError());
     }
 
     return hr;
@@ -76,7 +76,7 @@ HRESULT __stdcall D3DMapEsramMemory_X(UINT Flags, VOID* pVirtualAddress, UINT Nu
 
     if (hDevice == INVALID_HANDLE_VALUE)
     {
-        DWORD lastError = GetLastError( );
+        DWORD lastError = GetLastError();
         result = HRESULT_FROM_WIN32(lastError);
     }
     else
@@ -174,7 +174,7 @@ HRESULT __stdcall VdMapAddressToEsram(
     }
 
     // If DeviceIoControl fails, retrieve and return the error code
-    DWORD lastError = GetLastError( );
+    DWORD lastError = GetLastError();
     return HRESULT_FROM_WIN32(lastError);
 }
 HRESULT __stdcall DeviceIoControlHelper(HANDLE hDevice)
@@ -192,7 +192,7 @@ HRESULT __stdcall DeviceIoControlHelper(HANDLE hDevice)
     }
 
     // Get last error if DeviceIoControl fails
-    DWORD lastError = GetLastError( );
+    DWORD lastError = GetLastError();
     if (lastError > 0)
     {
         return HRESULT_FROM_WIN32(lastError);
@@ -272,7 +272,7 @@ HRESULT __stdcall D3DConfigureVirtualMemory_X(_Inout_ D3D11X_VIRTUAL_MEMORY_CONF
 
 void __stdcall D3DFlushEntireCpuCache_X()
 {
-    FlushInstructionCache(GetCurrentProcess( ), NULL, NULL);
+    FlushInstructionCache(GetCurrentProcess(), NULL, NULL);
 }
 
 HRESULT __stdcall D3DFreeGraphicsMemory_X(void* pAddress)
@@ -369,7 +369,7 @@ HRESULT __stdcall D3D11CreateDevice_X(
     }
     else
     {
-        LOG_ERROR("failed to assign wrapped device, result code 0x%X, error code 0x%X\n", hr, GetLastError( ));
+        LOG_ERROR("failed to assign wrapped device, result code 0x%X, error code 0x%X\n", hr, GetLastError());
     }
 
     return hr;
@@ -420,7 +420,7 @@ void WD11XNotify_X(WDEVENT_TYPE event)
 		throw std::exception("this shouldn't happen, check code that sends events.");
 	case WDEVENT_TYPE_KEYBOARD_ENGAGE:
 		LOG_INFO("[d3d11_x] keyboard engage\n");
-		wd::g_Overlay->EnableKeyboard( );
+		wd::g_Overlay->EnableKeyboard();
 		break;
     }
 }

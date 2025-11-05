@@ -144,8 +144,8 @@ ULONG __stdcall EtxEventWrite_X(
     ULONG                            dataCount,
     const EVENT_DATA_DESCRIPTOR* eventData);
 
-void __stdcall EtxSuspendUploading_X( );
+void __stdcall EtxSuspendUploading_X();
 
-void __stdcall EtxResumeUploading_X( );
+void __stdcall EtxResumeUploading_X();
 #pragma warning(pop)
 #endif // EtwPlus_H

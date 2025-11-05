@@ -30,7 +30,7 @@ private:
     static inline toml::table configTable;
     static inline std::mutex configMutex;
     static inline bool initialized = false;
-    static inline std::filesystem::path GetMyDllDir( )
+    static inline std::filesystem::path GetMyDllDir()
     {
         HMODULE hMod = nullptr;
         BOOL ok = ::GetModuleHandleExW(
@@ -38,27 +38,27 @@ private:
             GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
             reinterpret_cast<LPCWSTR>(&GetMyDllDir),
             &hMod
-        );
+       );
         if (!ok || !hMod) throw std::runtime_error("GetModuleHandleExW failed");
 
         WCHAR buf[ MAX_PATH ];
         if (GetModuleFileNameW(hMod, buf, MAX_PATH) == 0)
             throw std::runtime_error("GetModuleFileNameW failed");
 
-        return std::filesystem::path(buf).parent_path( );
+        return std::filesystem::path(buf).parent_path();
     }
 public:
 
     static inline std::wstring LoadGamertag(const std::string& config_path)
     {
-        auto dllDir = GetMyDllDir( );
+        auto dllDir = GetMyDllDir();
         auto fullPath = dllDir / config_path;
-        auto tbl = toml::parse_file(fullPath.string( ));
+        auto tbl = toml::parse_file(fullPath.string());
 
-        if (auto gt = tbl[ "winrt_x" ][ "gamertag" ].value<std::string>( ))
+        if (auto gt = tbl[ "winrt_x" ][ "gamertag" ].value<std::string>())
         {
             // Convert std::string to std::wstring
-            return std::wstring(gt->begin( ), gt->end( ));
+            return std::wstring(gt->begin(), gt->end());
         }
 
         // fallback if missing
@@ -67,7 +67,7 @@ public:
 
     static void Load(const std::string& filename = "config.toml") {
         std::lock_guard<std::mutex> lock(configMutex);
-        auto dllDir = GetMyDllDir( );
+        auto dllDir = GetMyDllDir();
         auto fullPath = dllDir / filename;
         if (!std::filesystem::exists(filename)) {
             std::cerr << "[Config] Config file " << filename << " does not exist. Creating default config." << std::endl;
@@ -99,7 +99,7 @@ public:
             // Write it to disk
             try {
                 std::ofstream file(fullPath);
-				LOG_INFO("Writing default config to %s", filename.c_str( ));
+				LOG_INFO("Writing default config to %s", filename.c_str());
                 file << configTable;
                 std::cerr << "[Config] Default config written to " << filename << std::endl;
             }
@@ -113,10 +113,10 @@ public:
 
         try {
             configTable = toml::parse_file(fullPath.string());
-			LOG_DEBUG("[Config] Loaded config from %s", fullPath.string( ).c_str( ));
+			LOG_DEBUG("[Config] Loaded config from %s", fullPath.string().c_str());
         }
         catch (const toml::parse_error& err) {
-            std::cerr << "[Config] Failed to parse " << filename << ": " << err.description( ) << std::endl;
+            std::cerr << "[Config] Failed to parse " << filename << ": " << err.description() << std::endl;
             configTable = toml::table{};
         }
 
@@ -126,23 +126,23 @@ public:
     template<typename T>
     static T Get(const std::string& key, const T& defaultValue) {
         std::lock_guard<std::mutex> lock(configMutex);
-        if (!initialized) Load( );
+        if (!initialized) Load();
 
         auto val = configTable[ key ];
         if constexpr (std::is_same_v<T, std::string>) {
-            if (val && val.is_string( )) return val.value_or(defaultValue);
+            if (val && val.is_string()) return val.value_or(defaultValue);
         }
         else if constexpr (std::is_same_v<T, int>) {
-            if (val && val.is_integer( )) return static_cast<int>(val.value_or(defaultValue));
+            if (val && val.is_integer()) return static_cast<int>(val.value_or(defaultValue));
         }
         else if constexpr (std::is_same_v<T, bool>) {
-            if (val && val.is_boolean( )) return val.value_or(defaultValue);
+            if (val && val.is_boolean()) return val.value_or(defaultValue);
         }
         else if constexpr (std::is_same_v<T, double>) {
-            if (val && val.is_floating_point( )) return val.value_or(defaultValue);
+            if (val && val.is_floating_point()) return val.value_or(defaultValue);
         }
         else if constexpr (std::is_same_v<T, float>) {
-            if (val && val.is_floating_point( )) return static_cast<float>(val.value_or(defaultValue));
+            if (val && val.is_floating_point()) return static_cast<float>(val.value_or(defaultValue));
         }
         return defaultValue;
     }

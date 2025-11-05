@@ -288,7 +288,7 @@ namespace wd
 			if (riid == __uuidof(wdi::ID3D11DeviceX) || riid == __uuidof(wdi::ID3D11Device) || riid == __uuidof(wdi::ID3D11Device1) || riid == __uuidof(wdi::ID3D11Device2))
 			{
 				*ppvObject = static_cast<wdi::ID3D11DeviceX*>(this);
-				AddRef( );
+				AddRef();
 				return S_OK;
 			}
 
@@ -460,19 +460,19 @@ namespace wd
 			//return wrapped_interface->SetPrivateDataInterfaceGraphics(guid, pData);
 		}
 
-		D3D_FEATURE_LEVEL GetFeatureLevel( ) override
+		D3D_FEATURE_LEVEL GetFeatureLevel() override
 		{
-			return wrapped_interface->GetFeatureLevel( );
+			return wrapped_interface->GetFeatureLevel();
 		}
 
-		UINT GetCreationFlags( ) override
+		UINT GetCreationFlags() override
 		{
-			return wrapped_interface->GetCreationFlags( );
+			return wrapped_interface->GetCreationFlags();
 		}
 
-		HRESULT GetDeviceRemovedReason( ) override
+		HRESULT GetDeviceRemovedReason() override
 		{
-			return wrapped_interface->GetDeviceRemovedReason( );
+			return wrapped_interface->GetDeviceRemovedReason();
 		}
 
 		void GetImmediateContext(ID3D11DeviceContext** ppImmediateContext) override;
@@ -482,9 +482,9 @@ namespace wd
 			return wrapped_interface->SetExceptionMode(RaiseFlags);
 		}
 
-		UINT GetExceptionMode( ) override
+		UINT GetExceptionMode() override
 		{
-			return wrapped_interface->GetExceptionMode( );
+			return wrapped_interface->GetExceptionMode();
 		}
 
 		// ID3D11Device1 methods

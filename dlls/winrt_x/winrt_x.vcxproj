@@ -947,7 +947,6 @@
     <ClCompile Include="dllmain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include=".editorconfig" />
     <None Include="packages.config" />
     <None Include="winrt_x.def" />
   </ItemGroup>

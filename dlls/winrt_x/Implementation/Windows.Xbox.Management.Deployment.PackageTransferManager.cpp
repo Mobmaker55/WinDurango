@@ -17,13 +17,13 @@ namespace winrt::Windows::Xbox::Management::Deployment::implementation
     {
         LOG_NOT_IMPLEMENTED(); throw hresult_not_implemented();
     }
-    winrt::Windows::Xbox::Management::Deployment::PackageTransferManager PackageTransferManager::Current( )
+    winrt::Windows::Xbox::Management::Deployment::PackageTransferManager PackageTransferManager::Current()
     {
         static winrt::Windows::Xbox::Management::Deployment::PackageTransferManager static_manager{ nullptr };
 
         if (!static_manager)
         {
-            static_manager = winrt::make<PackageTransferManager>( );
+            static_manager = winrt::make<PackageTransferManager>();
         }
 
         LOG_INFO("PackageTransferManager::Current()\n");
@@ -51,7 +51,7 @@ namespace winrt::Windows::Xbox::Management::Deployment::implementation
     {
         LOG_NOT_IMPLEMENTED(); return 0;
     }
-    winrt::Windows::Xbox::Management::Deployment::PackageTransferStatus PackageTransferManager::TransferStatus( )
+    winrt::Windows::Xbox::Management::Deployment::PackageTransferStatus PackageTransferManager::TransferStatus()
     {
         LOG_WARNING("PackageTransferManager::TransferStatus() STUBBED\n");
         return winrt::Windows::Xbox::Management::Deployment::PackageTransferStatus::None;

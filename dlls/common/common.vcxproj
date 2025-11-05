@@ -160,7 +160,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Config.toml" />
-    <None Include="Exports.def.bak" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

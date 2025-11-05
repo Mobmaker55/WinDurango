@@ -6,7 +6,7 @@ namespace winrt::Windows::Xbox::Input::implementation
 {
     winrt::Windows::Foundation::DateTime GamepadReading::Timestamp()
     {
-		return winrt::Windows::Foundation::DateTime( );
+		return winrt::Windows::Foundation::DateTime();
     }
     winrt::Windows::Xbox::Input::GamepadButtons GamepadReading::Buttons()
     {

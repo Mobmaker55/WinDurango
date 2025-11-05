@@ -62,22 +62,22 @@ MMDEVAPI_EXPORT_ORDINAL(DllRegisterServer, 37)
 MMDEVAPI_EXPORT_ORDINAL(DllUnregisterServer, 38)
 
 
-void DisableBitstreamOut_X( ) {}
-HRESULT EnableSpatialAudio_X( ) { return S_OK; }
-void RestoreBitstreamOut_X( ) {}
+void DisableBitstreamOut_X() {}
+HRESULT EnableSpatialAudio_X() { return S_OK; }
+void RestoreBitstreamOut_X() {}
 
 DWORD_PTR __stdcall SetWasapiThreadAffinityMask_X(DWORD_PTR dwThreadAffinityMask)
 {
     // Make sure the requested mask is valid for this process.
     DWORD_PTR processMask = 0, systemMask = 0;
-    if (!GetProcessAffinityMask(GetCurrentProcess( ), &processMask, &systemMask))
+    if (!GetProcessAffinityMask(GetCurrentProcess(), &processMask, &systemMask))
         return 0; // unexpected failure
 
     if ((dwThreadAffinityMask & processMask) == 0)
         dwThreadAffinityMask &= processMask;
 
     // Apply and return the previous affinity mask (0 on failure).
-    return SetThreadAffinityMask(GetCurrentThread( ), dwThreadAffinityMask);
+    return SetThreadAffinityMask(GetCurrentThread(), dwThreadAffinityMask);
 }
 void RefreshWasapiDeviceList_X() {}
 

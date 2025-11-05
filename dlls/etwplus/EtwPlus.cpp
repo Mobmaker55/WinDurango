@@ -57,9 +57,9 @@ VOID __stdcall EtxFillCommonFields_v7_X(
     LARGE_INTEGER qpc;
     QueryPerformanceCounter(&qpc);
     fields->Timestamp = static_cast<ULONGLONG>(qpc.QuadPart);
-    fields->ProcessId = GetCurrentProcessId( );
-    fields->ThreadId = GetCurrentThreadId( );
-    fields->CpuId = GetCurrentProcessorNumber( );
+    fields->ProcessId = GetCurrentProcessId();
+    fields->ThreadId = GetCurrentThreadId();
+    fields->CpuId = GetCurrentProcessorNumber();
     fields->Reserved = 0;
 
     // Point the first descriptor at the filled-in buffer.
@@ -113,7 +113,7 @@ ULONG __stdcall EtxEventWrite_X(
         const_cast<PEVENT_DATA_DESCRIPTOR>(eventData));
 }
 
-void __stdcall EtxSuspendUploading_X( )
+void __stdcall EtxSuspendUploading_X()
 {
     g_EtxUploadPaused.store(true, std::memory_order_release);
 
@@ -121,7 +121,7 @@ void __stdcall EtxSuspendUploading_X( )
         ResetEvent(g_EtxUploaderResumeEvent);
 }
 
-void __stdcall EtxResumeUploading_X( )
+void __stdcall EtxResumeUploading_X()
 {
     // Clear the pause flag
     g_EtxUploadPaused.store(false, std::memory_order_release);

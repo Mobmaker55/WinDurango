@@ -29,7 +29,7 @@ HRESULT wd::dxgi_adapter::GetParent(const IID& riid, void** ppParent)
         IDXGIFactory2* factory = nullptr;
         HRESULT hr = wrapped_interface->GetParent(IID_PPV_ARGS(&factory));
         *ppParent = new dxgi_factory(factory);
-        this->AddRef( );
+        this->AddRef();
         return hr;
     }
 

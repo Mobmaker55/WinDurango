@@ -23,7 +23,7 @@ namespace AppModel {
             if (!hKey)
                 return ERROR_INVALID_PARAMETER;
 
-            keyNames.clear( );
+            keyNames.clear();
             DWORD index = 0;
             WCHAR nameBuffer[ 256 ] = { 0 };
             DWORD nameSize;
@@ -46,8 +46,8 @@ namespace AppModel {
         __int64 __fastcall GetCurrentPackageFullName_X(std::wstring& packageFullName)
         {
 			LOG_DEBUG("GetCurrentPackageFullName %s", packageFullName);
-            packageFullName.clear( );
-            //if ((NtCurrentPeb( )->BitField & 0x20) == 0)
+            packageFullName.clear();
+            //if ((NtCurrentPeb()->BitField & 0x20) == 0)
             //    return 15700;
 
             HKEY hKey = nullptr;
@@ -62,15 +62,15 @@ namespace AppModel {
             {
                 std::vector<std::wstring> familyKeys;
                 status = EnumerateKeyNames(hKey, familyKeys);
-                if (status == ERROR_SUCCESS && !familyKeys.empty( ))
+                if (status == ERROR_SUCCESS && !familyKeys.empty())
                 {
                     HKEY phkResult = nullptr;
-                    status = RegOpenKeyExW(hKey, familyKeys[ 0 ].c_str( ), 0, KEY_READ, &phkResult);
+                    status = RegOpenKeyExW(hKey, familyKeys[ 0 ].c_str(), 0, KEY_READ, &phkResult);
                     if (status == ERROR_SUCCESS)
                     {
                         std::vector<std::wstring> packageKeys;
                         status = EnumerateKeyNames(phkResult, packageKeys);
-                        if (status == ERROR_SUCCESS && !packageKeys.empty( ))
+                        if (status == ERROR_SUCCESS && !packageKeys.empty())
                         {
                             packageFullName = packageKeys[ 0 ];
                         }
@@ -96,7 +96,7 @@ namespace AppModel {
             if (lpSubKey == nullptr)
                 return ERROR_INVALID_PARAMETER;
 
-            packageList.clear( );
+            packageList.clear();
             HKEY hKey = nullptr;
             HKEY phkResult = nullptr;
 
@@ -138,24 +138,24 @@ public:
 class ModuleBase {
 public:
     static ModuleBase* module_;
-    bool CanUnloadNow( ) const {
+    bool CanUnloadNow() const {
         return true;
     }
 };
 ModuleBase* ModuleBase::module_ = nullptr;
 
-HRESULT __stdcall DllCanUnloadNow_X( )
+HRESULT __stdcall DllCanUnloadNow_X()
 {
     static ModuleBase moduleInstance;
     static bool initialized = false;
 
     if (!initialized) {
         ModuleBase::module_ = &moduleInstance;
-        atexit([]( ) { ModuleBase::module_ = nullptr; });
+        atexit([]() { ModuleBase::module_ = nullptr; });
         initialized = true;
     }
 
-    return (moduleInstance.CanUnloadNow( )) ? S_OK : S_FALSE;
+    return (moduleInstance.CanUnloadNow()) ? S_OK : S_FALSE;
 }
 HRESULT CreateRandomAccessStreamOnFile_X(PCWSTR filePath, DWORD accessMode, REFIID riid, void** ppv) { return TRUE; }
 
@@ -172,12 +172,12 @@ HRESULT CreateRandomAccessStreamOverStream_X(
 
 __int64 __fastcall DllGetActivationFactory_X(HSTRING string, PVOID Ptr)
 {
-    LOG_NOT_IMPLEMENTED( ); return 0;
+    LOG_NOT_IMPLEMENTED(); return 0;
 }
 
 HRESULT __stdcall DllGetClassObject_X(const IID* const rclsid, const IID* const riid, LPVOID* ppv)
 {
-    LOG_NOT_IMPLEMENTED( );    return 0;
+    LOG_NOT_IMPLEMENTED();    return 0;
 }
 
 LONG __stdcall GetApplicationUserModelId_X(
@@ -279,21 +279,21 @@ LONG __stdcall GetPackagePath_X(const PVOID* packageId, const UINT32 reserved, U
     return GetCurrentPackagePath_X(pathLength, path);
 }
 
-void GetPackageXboxLiveInfo_X( ) {  }
+void GetPackageXboxLiveInfo_X() {  }
 
-void GetProcessXboxLiveInfo_X( ) {  }
+void GetProcessXboxLiveInfo_X() {  }
 
-void GetXboxLiveTitleId_X( ) {  }
+void GetXboxLiveTitleId_X() {  }
 
-void PsmBlockAppStateChangeCompletion_X( ) {  }
+void PsmBlockAppStateChangeCompletion_X() {  }
 
-void PsmRegisterAppStateChangeNotification_X( ) {  }
+void PsmRegisterAppStateChangeNotification_X() {  }
 
-void PsmShutdownApplication_X( ) {  }
+void PsmShutdownApplication_X() {  }
 
-void PsmUnblockAppStateChangeCompletion_X( ) {  }
+void PsmUnblockAppStateChangeCompletion_X() {  }
 
-void PsmWaitForAppResume_X( ) {  }
+void PsmWaitForAppResume_X() {  }
 
 LONG __stdcall GetPackageId(HANDLE hProcess, UINT32* bufferLength, BYTE* buffer)
 {
@@ -327,7 +327,7 @@ LONG __stdcall GetPackagesByPackageFamily_X(
 
     size_t requiredBufferSize = 0;
     for (const auto& package : packageList)
-        requiredBufferSize += package.size( ) + 1;
+        requiredBufferSize += package.size() + 1;
 
     if (*bufferLength < requiredBufferSize)
     {
@@ -335,21 +335,21 @@ LONG __stdcall GetPackagesByPackageFamily_X(
         return ERROR_INSUFFICIENT_BUFFER;
     }
 
-    if (*count < packageList.size( ))
+    if (*count < packageList.size())
     {
-        *count = static_cast<UINT32>(packageList.size( ));
+        *count = static_cast<UINT32>(packageList.size());
         return ERROR_INSUFFICIENT_BUFFER;
     }
 
     WCHAR* currentBufferPosition = buffer;
-    for (size_t i = 0; i < packageList.size( ); ++i)
+    for (size_t i = 0; i < packageList.size(); ++i)
     {
-        wcsncpy_s(currentBufferPosition, *bufferLength - (currentBufferPosition - buffer), packageList[ i ].c_str( ), packageList[ i ].size( ));
+        wcsncpy_s(currentBufferPosition, *bufferLength - (currentBufferPosition - buffer), packageList[ i ].c_str(), packageList[ i ].size());
         packageFullNames[ i ] = currentBufferPosition;
-        currentBufferPosition += packageList[ i ].size( ) + 1;
+        currentBufferPosition += packageList[ i ].size() + 1;
     }
 
-    *count = static_cast<UINT32>(packageList.size( ));
+    *count = static_cast<UINT32>(packageList.size());
     *bufferLength = static_cast<UINT32>(currentBufferPosition - buffer);
     return ERROR_SUCCESS;
 }
@@ -532,13 +532,13 @@ void __fastcall PsmCli::UnregisterAppStateChangeNotification(PsmCli* instance, s
         }
 
         LeaveCriticalSection(&CriticalSection);
-        HeapFree(GetProcessHeap( ), 0, a2);
+        HeapFree(GetProcessHeap(), 0, a2);
     }
 }
 
 void __fastcall PsmUnregisterAppStateChangeNotification_X(struct _PSM_APPSTATE_REGISTRATION* a1)
 {
-    LOG_NOT_IMPLEMENTED( );
+    LOG_NOT_IMPLEMENTED();
     if (a1)
         PsmCli::UnregisterAppStateChangeNotification(reinterpret_cast<PsmCli*>(a1), a1);
 }

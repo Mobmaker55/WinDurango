@@ -41,66 +41,66 @@ wd::Overlay::Overlay(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, IDXGI
 {
 }
 
-wd::Overlay::~Overlay( )
+wd::Overlay::~Overlay()
 {
-    Shutdown( );
+    Shutdown();
     m_pDevice = nullptr;
     m_pContext = nullptr;
     m_pSwapchain = nullptr;
 }
-void SetupImGuiKeyboardInputUWP( );
+void SetupImGuiKeyboardInputUWP();
 ImGuiKey MapVirtualKeyToImGuiKey(winrt::Windows::System::VirtualKey key);
 
-void wd::Overlay::Initialize( )
+void wd::Overlay::Initialize()
 {
     g_KeyboardFinished = CreateEventA(NULL, FALSE, FALSE, "KeyboardFinished");
 
     ID3D11Texture2D* pBackBuffer = nullptr;
     m_pSwapchain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer));
     m_pDevice->CreateRenderTargetView(pBackBuffer, nullptr, &m_pRenderTargetView);
-    if (pBackBuffer) pBackBuffer->Release( );
+    if (pBackBuffer) pBackBuffer->Release();
 
-    IMGUI_CHECKVERSION( );
-    ImGui::CreateContext( );
-    ImGuiIO& io = ImGui::GetIO( );
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO();
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
 
     io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\segoeui.ttf", 18.0f);
-    ImGui::StyleColorsDark( );
+    ImGui::StyleColorsDark();
 
-    ImGui_ImplUwp_InitForCurrentView( );
+    ImGui_ImplUwp_InitForCurrentView();
     ImGui_ImplDX11_Init(m_pDevice, m_pContext);
-    SetupImGuiKeyboardInputUWP( );
+    SetupImGuiKeyboardInputUWP();
 }
 
 
 
 
-void SetupImGuiKeyboardInputUWP( )
+void SetupImGuiKeyboardInputUWP()
 {
-    CoreWindow window = CoreWindow::GetForCurrentThread( );
+    CoreWindow window = CoreWindow::GetForCurrentThread();
 
     window.KeyDown(TypedEventHandler<CoreWindow, KeyEventArgs>(
         [](CoreWindow const&, KeyEventArgs const& args)
         {
-            ImGuiKey key = MapVirtualKeyToImGuiKey(args.VirtualKey( ));
+            ImGuiKey key = MapVirtualKeyToImGuiKey(args.VirtualKey());
             if (key != ImGuiKey_None)
-                ImGui::GetIO( ).AddKeyEvent(key, true);
+                ImGui::GetIO().AddKeyEvent(key, true);
         }));
 
     window.KeyUp(TypedEventHandler<CoreWindow, KeyEventArgs>(
         [](CoreWindow const&, KeyEventArgs const& args)
         {
-            ImGuiKey key = MapVirtualKeyToImGuiKey(args.VirtualKey( ));
+            ImGuiKey key = MapVirtualKeyToImGuiKey(args.VirtualKey());
             if (key != ImGuiKey_None)
-                ImGui::GetIO( ).AddKeyEvent(key, false);
+                ImGui::GetIO().AddKeyEvent(key, false);
         }));
 
     window.CharacterReceived(TypedEventHandler<CoreWindow, CharacterReceivedEventArgs>(
         [](CoreWindow const&, CharacterReceivedEventArgs const& args)
         {
-            ImGui::GetIO( ).AddInputCharacter(static_cast<unsigned int>(args.KeyCode( )));
+            ImGui::GetIO().AddInputCharacter(static_cast<unsigned int>(args.KeyCode()));
         }));
 }
 ImGuiKey MapVirtualKeyToImGuiKey(VirtualKey key)
@@ -159,30 +159,30 @@ ImGuiKey MapVirtualKeyToImGuiKey(VirtualKey key)
     }
 }
 
-void wd::Overlay::Shutdown( )
+void wd::Overlay::Shutdown()
 {
     if (m_pRenderTargetView)
     {
-        m_pRenderTargetView->Release( );
+        m_pRenderTargetView->Release();
         m_pRenderTargetView = nullptr;
     }
 
-    ImGui_ImplDX11_Shutdown( );
-    ImGui_ImplUwp_Shutdown( );
-    ImGui::DestroyContext( );
+    ImGui_ImplDX11_Shutdown();
+    ImGui_ImplUwp_Shutdown();
+    ImGui::DestroyContext();
 }
 
-void wd::Overlay::EnableKeyboard( )
+void wd::Overlay::EnableKeyboard()
 {
     m_bKeyboard = true;
 }
 
-void wd::Overlay::UpdateXInput( )
+void wd::Overlay::UpdateXInput()
 {
     XINPUT_STATE state = {};
     if (XInputGetState(0, &state) == ERROR_SUCCESS)
     {
-        ImGuiIO& io = ImGui::GetIO( );
+        ImGuiIO& io = ImGui::GetIO();
 
 #define GAMEPAD_KEY(key, condition) io.AddKeyEvent(ImGuiKey_##key, (condition))
 
@@ -224,22 +224,22 @@ void wd::Overlay::UpdateXInput( )
 }
 
 
-void wd::Overlay::Present( )
+void wd::Overlay::Present()
 {
-    UpdateXInput( );
-    ImGui_ImplDX11_NewFrame( );
-    ImGui_ImplUwp_NewFrame( );
-    ImGui::NewFrame( );
+    UpdateXInput();
+    ImGui_ImplDX11_NewFrame();
+    ImGui_ImplUwp_NewFrame();
+    ImGui::NewFrame();
 
     if (m_bKeyboard)
-        RenderKeyboardWindow( );
+        RenderKeyboardWindow();
 
-    ImGui::Render( );
+    ImGui::Render();
     m_pContext->OMSetRenderTargets(1, &m_pRenderTargetView, nullptr);
-    ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData( ));
+    ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 }
 
-void wd::Overlay::RenderKeyboardWindow( )
+void wd::Overlay::RenderKeyboardWindow()
 {
     static bool isUppercase = false;
     static bool isSymbols = false;
@@ -259,7 +259,7 @@ void wd::Overlay::RenderKeyboardWindow( )
 
     const char** currentKeys = isSymbols ? symbols : keys;
 
-    ImGuiIO& io = ImGui::GetIO( );
+    ImGuiIO& io = ImGui::GetIO();
     ImGui::SetNextWindowSize(ImVec2(500, 330));
     ImGui::SetNextWindowPos(ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
     ImGui::Begin("WinDurango Keyboard", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse);
@@ -268,21 +268,21 @@ void wd::Overlay::RenderKeyboardWindow( )
 
     if (ImGui::Button(isUppercase ? "Lowercase" : "Uppercase"))
         isUppercase = !isUppercase;
-    ImGui::SameLine( );
+    ImGui::SameLine();
     if (ImGui::Button(isSymbols ? "Letters" : "Symbols"))
         isSymbols = !isSymbols;
 
-    ImGui::NewLine( );
+    ImGui::NewLine();
     RenderKeyboardRow(currentKeys, 0, 12, isUppercase);
     RenderKeyboardRow(currentKeys, 12, 24, isUppercase);
     if (!isSymbols) RenderKeyboardRow(currentKeys, 24, 35, isUppercase);
     else            RenderKeyboardRow(currentKeys, 24, 32, isUppercase);
     if (!isSymbols) RenderKeyboardRow(currentKeys, 35, 44, isUppercase);
 
-    ImGui::NewLine( );
-    HandleKeyboardSpecialKeys( );
+    ImGui::NewLine();
+    HandleKeyboardSpecialKeys();
 
-    ImGui::End( );
+    ImGui::End();
 }
 
 void wd::Overlay::RenderKeyboardRow(const char** keys, int start, int end, bool isUppercase)
@@ -293,10 +293,10 @@ void wd::Overlay::RenderKeyboardRow(const char** keys, int start, int end, bool 
         ImGui::PushID(i);
         if (ImGui::Button(keys[ i ], buttonSize))
             AddKeyToBuffer(isUppercase ? keys[ i ][ 0 ] : tolower(keys[ i ][ 0 ]));
-        ImGui::PopID( );
-        ImGui::SameLine( );
+        ImGui::PopID();
+        ImGui::SameLine();
     }
-    ImGui::NewLine( );
+    ImGui::NewLine();
 }
 
 void wd::Overlay::AddKeyToBuffer(char c)
@@ -309,13 +309,13 @@ void wd::Overlay::AddKeyToBuffer(char c)
     }
 }
 
-void wd::Overlay::HandleKeyboardSpecialKeys( )
+void wd::Overlay::HandleKeyboardSpecialKeys()
 {
     ImVec2 buttonSize(30, 30);
 
     if (ImGui::Button("Space", ImVec2(60, 30)) || ImGui::IsKeyPressed(ImGuiKey_Space) || ImGui::IsKeyPressed(ImGuiKey_GamepadFaceUp))
         AddKeyToBuffer(' ');
-    ImGui::SameLine( );
+    ImGui::SameLine();
 
     if (ImGui::Button("Backspace", ImVec2(90, 30)) ||
         ImGui::IsKeyPressed(ImGuiKey_Backspace) ||
@@ -325,7 +325,7 @@ void wd::Overlay::HandleKeyboardSpecialKeys( )
         if (len > 0)
             g_KeyboardText[ len - 1 ] = '\0';
     }
-    ImGui::SameLine( );
+    ImGui::SameLine();
 
     if (ImGui::Button("OK", buttonSize) ||
         ImGui::IsKeyPressed(ImGuiKey_Enter) ||

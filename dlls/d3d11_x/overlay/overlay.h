@@ -30,20 +30,20 @@ namespace wd
 	{
 	public:
 		Overlay(ID3D11Device* pDevice, ID3D11DeviceContext* pContext, IDXGISwapChain1* pSwapchain);
-		~Overlay( );
-		void Initialize( );
-		void Shutdown( );
-		void EnableKeyboard( );
-		void UpdateXInput( );
-		void Present( );
+		~Overlay();
+		void Initialize();
+		void Shutdown();
+		void EnableKeyboard();
+		void UpdateXInput();
+		void Present();
 
-		void RenderKeyboardWindow( );
+		void RenderKeyboardWindow();
 
 		void RenderKeyboardRow(const char** keys, int start, int end, bool isUppercase);
 
 		void AddKeyToBuffer(char c);
 
-		void HandleKeyboardSpecialKeys( );
+		void HandleKeyboardSpecialKeys();
 
 	private:
 		bool m_bOpen = false;

@@ -35,8 +35,8 @@ namespace wdi
 #endif
 
 		virtual HRESULT QueryInterface(REFIID riid, void** ppvObject) = 0;
-		virtual ULONG AddRef( ) = 0;
-		virtual ULONG Release( ) = 0;
+		virtual ULONG AddRef() = 0;
+		virtual ULONG Release() = 0;
 	};
 
 	D3DINTERFACE(IGraphicsUnwrap, bcfaae29, e1a2, 4b9a, aa, fc, 55, b9, ff, 21, fa, 54)
@@ -50,16 +50,16 @@ namespace wd
 	class graphics_unknown : public wdi::IGraphicsUnknown
 	{
 	public:
-		graphics_unknown( ) {
+		graphics_unknown() {
 			m_RefCount = 1;
 		}
 
-		ULONG AddRef( ) override
+		ULONG AddRef() override
 		{
 			return InterlockedIncrement(&m_RefCount);
 		}
 
-		ULONG Release( ) override
+		ULONG Release() override
 		{
 			ULONG refCount = InterlockedDecrement(&m_RefCount);
 			if (refCount == 0) {
@@ -80,7 +80,7 @@ namespace wd
 			if (riid == __uuidof(wdi::IGraphicsUnknown))
 			{
 				*ppvObject = static_cast<wdi::IGraphicsUnknown*>(this);
-				AddRef( );
+				AddRef();
 				return S_OK;
 			}
 			*ppvObject = nullptr;

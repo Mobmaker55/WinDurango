@@ -10,7 +10,7 @@ namespace winrt::Windows::Xbox::ApplicationModel::Core::implementation
     {
         return g_currentUser;
     }
-    winrt::Windows::Xbox::System::User winrt::Windows::Xbox::ApplicationModel::Core::implementation::CoreApplicationContext::PreviousUser( )
+    winrt::Windows::Xbox::System::User winrt::Windows::Xbox::ApplicationModel::Core::implementation::CoreApplicationContext::PreviousUser()
     {
         return g_previousUser;
     }

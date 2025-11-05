@@ -164,18 +164,18 @@ DEFINE_GUID(DXGI_DEBUG_D3D11, 0x4b99317b, 0xac39, 0x4aa6, 0xbb, 0xb, 0xba, 0xa0,
     MessageBoxA(NULL, std::format("[{}] INTERFACE NOT HANDLED: {}", class_name, iidstr).c_str(), "WD - d3d11_x", MB_OK) \
 
 #define IGU_DEFINE_REF \
-    ULONG AddRef( ) override {                                \
-		wrapped_interface->AddRef( );                         \
+    ULONG AddRef() override {                                \
+		wrapped_interface->AddRef();                         \
 		return InterlockedIncrement(&m_RefCount);             \
 	}                                                         \
                                                               \
-	ULONG Release( ) override {                               \
+	ULONG Release() override {                               \
 	    ULONG refCount = InterlockedDecrement(&m_RefCount);   \
-		wrapped_interface->Release( );                        \
+		wrapped_interface->Release();                        \
                                                               \
         if (refCount == 0)                                    \
         {                                                     \
-            wrapped_interface->Release( );                    \
+            wrapped_interface->Release();                    \
             delete this;                                      \
         }                                                     \
                                                               \

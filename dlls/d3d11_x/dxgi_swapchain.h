@@ -128,7 +128,7 @@ namespace wd
 	class dxgi_swapchain : public wdi::IDXGISwapChain1
 	{
 	public:
-		dxgi_swapchain(::IDXGISwapChain1* swapchain) : wrapped_interface(swapchain) { wrapped_interface->AddRef( ); }
+		dxgi_swapchain(::IDXGISwapChain1* swapchain) : wrapped_interface(swapchain) { wrapped_interface->AddRef(); }
 
         IGU_DEFINE_REF
 

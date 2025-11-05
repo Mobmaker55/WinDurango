@@ -12,7 +12,7 @@ namespace winrt::Windows::Xbox::Storage::implementation
     winrt::Windows::Foundation::IAsyncOperation<winrt::Windows::Xbox::Storage::ConnectedStorageSpace> ConnectedStorageSpace::GetForUserAsync(winrt::Windows::Xbox::System::User user)
     {
         if (userStorageSpace == Storage::ConnectedStorageSpace(nullptr)) {
-            userStorageSpace = winrt::make<implementation::ConnectedStorageSpace>( WinDurango::impl::s_userStorage );
+            userStorageSpace = winrt::make<implementation::ConnectedStorageSpace>(WinDurango::impl::s_userStorage);
         }
 
 		co_return userStorageSpace;
@@ -20,7 +20,7 @@ namespace winrt::Windows::Xbox::Storage::implementation
     winrt::Windows::Foundation::IAsyncOperation<winrt::Windows::Xbox::Storage::ConnectedStorageSpace> ConnectedStorageSpace::GetForUserAsync(winrt::Windows::Xbox::System::User user, hstring serviceConfigurationId)
     {
         if (userStorageSpace == Storage::ConnectedStorageSpace(nullptr)) {
-            userStorageSpace = winrt::make<implementation::ConnectedStorageSpace>( WinDurango::impl::s_userStorage );
+            userStorageSpace = winrt::make<implementation::ConnectedStorageSpace>(WinDurango::impl::s_userStorage);
         }
 
         co_return userStorageSpace;
@@ -28,7 +28,7 @@ namespace winrt::Windows::Xbox::Storage::implementation
     winrt::Windows::Foundation::IAsyncOperation<winrt::Windows::Xbox::Storage::ConnectedStorageSpace> ConnectedStorageSpace::GetForMachineAsync()
     {
         if (machineStorageSpace == Storage::ConnectedStorageSpace(nullptr)) {
-            machineStorageSpace = winrt::make<implementation::ConnectedStorageSpace>( WinDurango::impl::s_machineStorage );
+            machineStorageSpace = winrt::make<implementation::ConnectedStorageSpace>(WinDurango::impl::s_machineStorage);
         }
 
         co_return machineStorageSpace;
@@ -59,7 +59,7 @@ namespace winrt::Windows::Xbox::Storage::implementation
     }
     winrt::Windows::Xbox::System::User ConnectedStorageSpace::User()
     {
-        return System::implementation::User::Users( ).GetAt(0);
+        return System::implementation::User::Users().GetAt(0);
     }
     hstring ConnectedStorageSpace::ServiceConfigurationId()
     {
@@ -75,7 +75,7 @@ namespace winrt::Windows::Xbox::Storage::implementation
 			assert("s_userStorage is null");
 
         if (containers == nullptr)
-            containers = winrt::single_threaded_map<hstring, winrt::Windows::Xbox::Storage::ConnectedStorageContainer>( );
+            containers = winrt::single_threaded_map<hstring, winrt::Windows::Xbox::Storage::ConnectedStorageContainer>();
 
         if (!containers.HasKey(containerName)) {
             winrt::Windows::Xbox::Storage::ConnectedStorageContainer container = winrt::make<ConnectedStorageContainer>(containerName, m_connectedStorage);

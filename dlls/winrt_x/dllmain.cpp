@@ -14,8 +14,8 @@ DWORD WINAPI ThreadProc(LPVOID lpParam)
 
     if (WinDurango::impl::s_machineStorage == nullptr)
     {
-        WinDurango::impl::s_machineStorage = new WinDurango::impl::ConnectedStorage( );
-        WinDurango::impl::s_machineStorage->InitializeStorage(L"MachineStorage").get( );
+        WinDurango::impl::s_machineStorage = new WinDurango::impl::ConnectedStorage();
+        WinDurango::impl::s_machineStorage->InitializeStorage(L"MachineStorage").get();
     }
 
     return 1;

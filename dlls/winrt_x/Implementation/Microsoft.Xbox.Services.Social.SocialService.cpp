@@ -27,7 +27,7 @@ namespace winrt::Microsoft::Xbox::Services::Social::implementation
     }
     winrt::Windows::Foundation::IAsyncOperation<winrt::Microsoft::Xbox::Services::Social::XboxSocialRelationshipResult> SocialService::GetSocialRelationshipsAsync(winrt::Microsoft::Xbox::Services::Social::SocialRelationship socialRelationshipFilter, uint32_t startIndex, uint32_t maxItems)
     {
-        co_await winrt::resume_background( );
+        co_await winrt::resume_background();
     }
     winrt::Microsoft::Xbox::Services::Social::SocialRelationshipChangeSubscription SocialService::SubscribeToSocialRelationshipChange(hstring const& xboxUserId)
     {

@@ -323,29 +323,29 @@ struct ACP_MESSAGE
 class IAcpHal
 {
 public:
-    IAcpHal( ) { printf("[IAcpHal] Constructed\n"); }
-    virtual ~IAcpHal( ) { printf("[IAcpHal] Destructed\n"); }
+    IAcpHal() { printf("[IAcpHal] Constructed\n"); }
+    virtual ~IAcpHal() { printf("[IAcpHal] Destructed\n"); }
 
     // Add virtual destructor to allow safe deletion
     virtual HRESULT __stdcall Connect(UINT32, UINT32) = 0;
-    virtual HRESULT __stdcall Disconnect( ) = 0;
+    virtual HRESULT __stdcall Disconnect() = 0;
     virtual HRESULT __stdcall SubmitCommand(ACP_COMMAND_TYPE, UINT64, UINT32, const void*, APU_ADDRESS) = 0;
     virtual bool __stdcall PopMessage(ACP_MESSAGE* msg) = 0;
-    virtual UINT32 __stdcall GetNumMessages( ) = 0;
-    virtual void __stdcall Release( ) = 0;
+    virtual UINT32 __stdcall GetNumMessages() = 0;
+    virtual void __stdcall Release() = 0;
 };
 
 class AcpHal : public IAcpHal {
     ULONG m_refCount = 1;
 
 public:
-    AcpHal( ) { printf("[AcpHal] Constructed\n"); }
-    ~AcpHal( ) { printf("[AcpHal] Destructed\n"); }
+    AcpHal() { printf("[AcpHal] Constructed\n"); }
+    ~AcpHal() { printf("[AcpHal] Destructed\n"); }
 
     // COM reference tracking
-    ULONG AddRef( ) { return ++m_refCount; }
+    ULONG AddRef() { return ++m_refCount; }
 
-    ULONG ReleaseRef( ) {
+    ULONG ReleaseRef() {
         ULONG ref = --m_refCount;
         if (ref == 0) {
             delete this;
@@ -356,7 +356,7 @@ public:
 
     // IAcpHal methods
     HRESULT __stdcall Connect(UINT32, UINT32) override { printf("Connect()\n"); return S_OK; }
-    HRESULT __stdcall Disconnect( ) override { printf("Disconnect()\n"); return S_OK; }
+    HRESULT __stdcall Disconnect() override { printf("Disconnect()\n"); return S_OK; }
     HRESULT __stdcall SubmitCommand(ACP_COMMAND_TYPE, UINT64, UINT32, const void*, APU_ADDRESS) override {
         printf("SubmitCommand()\n");
         return S_OK;
@@ -366,13 +366,13 @@ public:
         if (msg) ZeroMemory(msg, sizeof(*msg));
         return false;
     }
-    UINT32 __stdcall GetNumMessages( ) override {
+    UINT32 __stdcall GetNumMessages() override {
         printf("GetNumMessages()\n");
         return 0;
     }
-    void __stdcall Release( ) override {
+    void __stdcall Release() override {
         printf("Release() called\n");
-        ReleaseRef( ); // Properly manages reference count
+        ReleaseRef(); // Properly manages reference count
     }
 
 };

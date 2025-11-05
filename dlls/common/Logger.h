@@ -60,7 +60,7 @@ private:
     static inline std::mutex logMutex;
     static inline LoggerConfig config;
 
-    static std::string GenerateLogFileName( ) {
+    static std::string GenerateLogFileName() {
         auto t = std::time(nullptr);
         std::tm tm{};
         localtime_s(&tm, &t);
@@ -68,7 +68,7 @@ private:
         std::strftime(buf, sizeof(buf), "debug_%Y-%m-%d_%H-%M-%S.log", &tm);
         return buf;
     }
-    static inline std::ofstream logFile{ GenerateLogFileName( ), std::ios::app };
+    static inline std::ofstream logFile{ GenerateLogFileName(), std::ios::app };
 
     static inline std::string FormatString(const char* fmt, va_list args) {
         char buffer[ 1024 ];
@@ -88,7 +88,7 @@ private:
         }
     }
 
-    static std::string CurrentTime( ) {
+    static std::string CurrentTime() {
         std::time_t now = std::time(nullptr);
         std::tm timeinfo{};
         char buffer[ 32 ];
@@ -101,7 +101,7 @@ private:
         }
     }
 
-    static std::wstring CurrentTimeW( ) {
+    static std::wstring CurrentTimeW() {
         std::time_t now = std::time(nullptr);
         std::tm timeinfo{};
         wchar_t buffer[ 32 ];
@@ -137,7 +137,7 @@ public:
     // -------------------------------
     static void Logf(LogLevel level, const std::string& message, const char* file, int line, const char* function) {
         std::lock_guard<std::mutex> lock(logMutex);
-        std::string timeStr = CurrentTime( );
+        std::string timeStr = CurrentTime();
         std::string func = ExtractFunctionName(function);
         const char* project = ExtractProjectName(file);
         const char* levelStr = ToString(level);
@@ -153,17 +153,17 @@ public:
         std::cout << timeStr << " - " << levelStr << " - " << project << " - " << func;
         if (level == LogLevel::Error || level == LogLevel::Fatal)
             std::cout << " - Line " << line;
-        if (!message.empty( ))
+        if (!message.empty())
             std::cout << " - " << message;
         std::cout << std::endl;
 
         if (hConsole) SetConsoleTextAttribute(hConsole, originalAttributes);
 
-        if (logFile.is_open( )) {
+        if (logFile.is_open()) {
             logFile << timeStr << " - " << levelStr << " - " << project << " - " << func;
             if (level == LogLevel::Error || level == LogLevel::Fatal)
                 logFile << " - Line " << line;
-            if (!message.empty( ))
+            if (!message.empty())
                 logFile << " - " << message;
             logFile << std::endl;
         }
@@ -174,7 +174,7 @@ public:
     // -------------------------------
     static void Log(LogLevel level, const std::wstring& message, const wchar_t* file, int line, const wchar_t* function) {
         std::lock_guard<std::mutex> lock(logMutex);
-        std::wstring timeStr = CurrentTimeW( );
+        std::wstring timeStr = CurrentTimeW();
         std::wstring func = ExtractFunctionNameW(function);
         std::wstring project = ExtractProjectNameW(file);
         std::wstring levelStr = ConvertToWString(ToString(level));
@@ -190,18 +190,18 @@ public:
         std::wcout << timeStr << L" - " << levelStr << L" - " << project << L" - " << func;
         if (level == LogLevel::Error || level == LogLevel::Fatal)
             std::wcout << L" - Line " << line;
-        if (!message.empty( ))
+        if (!message.empty())
             std::wcout << L" - " << message;
         std::wcout << std::endl;
 
         if (hConsole) SetConsoleTextAttribute(hConsole, originalAttributes);
 
         static std::wofstream logFileW{ L"debug_wide.log", std::ios::app };
-        if (logFileW.is_open( )) {
+        if (logFileW.is_open()) {
             logFileW << timeStr << L" - " << levelStr << L" - " << project << L" - " << func;
             if (level == LogLevel::Error || level == LogLevel::Fatal)
                 logFileW << L" - Line " << line;
-            if (!message.empty( ))
+            if (!message.empty())
                 logFileW << L" - " << message;
             logFileW << std::endl;
         }
@@ -213,7 +213,7 @@ public:
         int size = MultiByteToWideChar(CP_UTF8, 0, str, -1, nullptr, 0);
         std::wstring wstr(size, 0);
         MultiByteToWideChar(CP_UTF8, 0, str, -1, &wstr[ 0 ], size);
-        wstr.pop_back( ); // remove null terminator
+        wstr.pop_back(); // remove null terminator
         return wstr;
     }
     static WORD GetColorForProject(const char* projectName) {
@@ -344,7 +344,7 @@ public:
 // Debug-only short macros (auto-disables in Release)
 // ------------------------------------------------------------------------------------------------
 #ifdef _DEBUG
-#define DEBUG_PRINT() printf("Line: %d --> %s --> %s \r\n", __LINE__,ExtractProjectName(__FILE__) ,ExtractFunctionName(FUNCTION_NAME) )
+#define DEBUG_PRINT() printf("Line: %d --> %s --> %s \r\n", __LINE__,ExtractProjectName(__FILE__) ,ExtractFunctionName(FUNCTION_NAME))
 #define DEBUGPRINT(fmt, ...) printf("Line: %d --> %s --> %s " fmt "\r\n", __LINE__ , ExtractProjectName(__FILE__), __FUNCTION__ , ##__VA_ARGS__)
 #else
 #define DEBUG_PRINT()

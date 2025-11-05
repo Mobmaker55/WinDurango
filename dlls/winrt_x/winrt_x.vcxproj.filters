@@ -161,9 +161,14 @@
     <Filter Include="Implementation\Windows\Xbox\Storage\WinDurango">
       <UniqueIdentifier>{39c5e887-fef6-48c2-9f60-7ddf8b3acdbf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{89980a93-3d98-4b07-862c-77409c3bddb5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{5fd34855-60e2-4928-aab7-410e6b08b7ea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="Implementation\Microsoft.Xbox.GameChat.AccessibilitySettingsChangedEventArgs.cpp">
       <Filter>Implementation\Microsoft\Xbox\GameChat</Filter>
     </ClCompile>
@@ -773,8 +778,6 @@
     <ClCompile Include="Implementation\Microsoft.Xbox.Services.UserStatistics.UserStatisticsService.cpp">
       <Filter>Implementation\Microsoft\Xbox\Services\UserStatistics</Filter>
     </ClCompile>
-    <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
-    <ClCompile Include="pch.cpp" />
     <ClCompile Include="Implementation\Windows.Kinect.AudioBeam.cpp">
       <Filter>Implementation\Windows\Kinect</Filter>
     </ClCompile>
@@ -1326,6 +1329,15 @@
     </ClCompile>
     <ClCompile Include="ConnectedStorage\Windows.Xbox.Storage.ConnectedStorage.cpp">
       <Filter>Implementation\Windows\Xbox\Storage\WinDurango</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(GeneratedFilesDir)module.g.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1938,7 +1950,6 @@
     <ClInclude Include="Implementation\Microsoft.Xbox.Services.UserStatistics.UserStatisticsResult.h">
       <Filter>Implementation\Microsoft\Xbox\Services\UserStatistics</Filter>
     </ClInclude>
-    <ClInclude Include="pch.h" />
     <ClInclude Include="Implementation\Windows.Kinect.AudioBeam.h">
       <Filter>Implementation\Windows\Kinect</Filter>
     </ClInclude>
@@ -2404,7 +2415,6 @@
     <ClInclude Include="Implementation\Windows.Xbox.Speech.Recognition.SpeechRuleReferenceItem.h">
       <Filter>Implementation\Windows\Xbox\Speech\Recognition</Filter>
     </ClInclude>
-    <ClInclude Include="common.h" />
     <ClInclude Include="Implementation\Windows.Xbox.Input.ControllerInputManager.h">
       <Filter>Implementation\Windows\Xbox\Input</Filter>
     </ClInclude>
@@ -2492,12 +2502,17 @@
     <ClInclude Include="ConnectedStorage\Windows.Xbox.Storage.ConnectedStorage.h">
       <Filter>Implementation\Windows\Xbox\Storage\WinDurango</Filter>
     </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="winrt_x.def" />
     <None Include="PropertySheet.props" />
     <None Include="packages.config" />
-    <None Include=".editorconfig" />
   </ItemGroup>
   <ItemGroup>
     <Midl Include="External\Windows.Xbox.Input.idl">

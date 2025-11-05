@@ -28,37 +28,37 @@ If you do not agree to these terms, you do not have permission to use this code.
 
 void wd::device_context_x::GetDevice(ID3D11Device** ppDevice)
 {
-	LOG_NOT_IMPLEMENTED( );
+	LOG_NOT_IMPLEMENTED();
 	throw std::logic_error("Not implemented");
 }
 
 HRESULT wd::device_context_x::GetPrivateData(const GUID& guid, UINT* pDataSize, void* pData)
 {
-	LOG_NOT_IMPLEMENTED( );
+	LOG_NOT_IMPLEMENTED();
 	throw std::logic_error("Not implemented");
 }
 
 HRESULT wd::device_context_x::SetPrivateData(const GUID& guid, UINT DataSize, const void* pData)
 {
-	LOG_NOT_IMPLEMENTED( );
+	LOG_NOT_IMPLEMENTED();
 	throw std::logic_error("Not implemented");
 }
 
 HRESULT wd::device_context_x::SetPrivateDataInterface(const GUID& guid, const IUnknown* pData)
 {
-	LOG_NOT_IMPLEMENTED( );
+	LOG_NOT_IMPLEMENTED();
 	throw std::logic_error("Not implemented");
 }
 
 HRESULT wd::device_context_x::SetPrivateDataInterfaceGraphics(const GUID& guid, const IGraphicsUnknown* pData)
 {
-	LOG_NOT_IMPLEMENTED( );
+	LOG_NOT_IMPLEMENTED();
 	throw std::logic_error("Not implemented");
 }
 
 HRESULT wd::device_context_x::SetName(LPCWSTR pName)
 {
-	LOG_NOT_IMPLEMENTED( );
+	LOG_NOT_IMPLEMENTED();
 	throw std::logic_error("Not implemented");
 }
 
@@ -81,7 +81,7 @@ void wd::device_context_x::VSSetConstantBuffers(UINT StartSlot, UINT NumBuffers,
 
 void wd::device_context_x::Draw(UINT VertexCount, UINT StartVertexLocation)
 {
-	ProcessDirtyFlags( );
+	ProcessDirtyFlags();
 	wrapped_interface->Draw(VertexCount, StartVertexLocation);
 }
 
@@ -128,7 +128,7 @@ void wd::device_context_x::PSSetConstantBuffers(UINT StartSlot, UINT NumBuffers,
 			{
 				auto wrapped = static_cast<wd::buffer*>(wdi_buf);
 				buffers[ i ] = wrapped->wrapped_interface;
-				wdi_buf->Release( );
+				wdi_buf->Release();
 			}
 			else
 			{
@@ -249,7 +249,7 @@ void wd::device_context_x::GSSetShaderResources(ID3D11ShaderResourceView* const*
 
 void wd::device_context_x::DrawAuto()
 {
-	LOG_NOT_IMPLEMENTED( );
+	LOG_NOT_IMPLEMENTED();
 	throw std::logic_error("Not implemented");
 }
 
@@ -524,7 +524,7 @@ void wd::device_context_x::GenerateMips(ID3D11ShaderResourceView* pShaderResourc
 		{
 			auto wrapped = static_cast<wd::shader_resource_view*>(wdi_srv);
 			unwrappedSRV = wrapped->wrapped_interface;
-			wdi_srv->Release( );
+			wdi_srv->Release();
 		}
 		else
 		{
@@ -618,7 +618,7 @@ void wd::device_context_x::CSSetUnorderedAccessViews(
 			{
 				auto wrapped = static_cast<wd::unordered_access_view*>(wdi_uav);
 				unwrappedUAVs[ i ] = wrapped->wrapped_interface;
-				wdi_uav->Release( );
+				wdi_uav->Release();
 			}
 			else
 			{
@@ -1158,80 +1158,80 @@ INT wd::device_context_x::PIXBeginEventEx(const void* pData, UINT DataSize)
 
 INT wd::device_context_x::PIXEndEvent()
 {
-	LOG_NOT_IMPLEMENTED( );
+	LOG_NOT_IMPLEMENTED();
 	throw std::logic_error("Not implemented");
 }
 
 void wd::device_context_x::PIXSetMarker(LPCWSTR Name)
 {
-	LOG_NOT_IMPLEMENTED( );
+	LOG_NOT_IMPLEMENTED();
 	throw std::logic_error("Not implemented");
 }
 
 void wd::device_context_x::PIXSetMarkerEx(const void* pData, UINT DataSize)
 {
-	LOG_NOT_IMPLEMENTED( );
+	LOG_NOT_IMPLEMENTED();
 	throw std::logic_error("Not implemented");
 }
 
 BOOL wd::device_context_x::PIXGetStatus()
 {
-	LOG_NOT_IMPLEMENTED( );
+	LOG_NOT_IMPLEMENTED();
 	throw std::logic_error("Not implemented");
 }
 
 HRESULT wd::device_context_x::PIXGpuCaptureNextFrame(UINT Flags, LPCWSTR lpOutputFileName)
 {
-	LOG_NOT_IMPLEMENTED( );
+	LOG_NOT_IMPLEMENTED();
 	throw std::logic_error("Not implemented");
 }
 
 HRESULT wd::device_context_x::PIXGpuBeginCapture(UINT Flags, LPCWSTR lpOutputFileName)
 {
-	LOG_NOT_IMPLEMENTED( );
+	LOG_NOT_IMPLEMENTED();
 	throw std::logic_error("Not implemented");
 }
 
 HRESULT wd::device_context_x::PIXGpuEndCapture()
 {
-	LOG_NOT_IMPLEMENTED( );
+	LOG_NOT_IMPLEMENTED();
 	throw std::logic_error("Not implemented");
 }
 
 void wd::device_context_x::StartCounters(wdi::ID3D11CounterSetX* pCounterSet)
 {
-	LOG_NOT_IMPLEMENTED( );
+	LOG_NOT_IMPLEMENTED();
 	throw std::logic_error("Not implemented");
 }
 
 void wd::device_context_x::SampleCounters(wdi::ID3D11CounterSampleX* pCounterSample)
 {
-	LOG_NOT_IMPLEMENTED( );
+	LOG_NOT_IMPLEMENTED();
 	throw std::logic_error("Not implemented");
 }
 
 void wd::device_context_x::StopCounters()
 {
-	LOG_NOT_IMPLEMENTED( );
+	LOG_NOT_IMPLEMENTED();
 	throw std::logic_error("Not implemented");
 }
 
 HRESULT wd::device_context_x::GetCounterData(wdi::ID3D11CounterSampleX* pCounterSample, wdi::D3D11X_COUNTER_DATA* pData,
 	UINT GetCounterDataFlags)
 {
-	LOG_NOT_IMPLEMENTED( );
+	LOG_NOT_IMPLEMENTED();
 	throw std::logic_error("Not implemented");
 }
 
 void wd::device_context_x::FlushGpuCaches(ID3D11Resource* pResource)
 {
-	LOG_NOT_IMPLEMENTED( );
+	LOG_NOT_IMPLEMENTED();
 	throw std::logic_error("Not implemented");
 }
 
 void wd::device_context_x::FlushGpuCacheRange(UINT Flags, void* pBaseAddress, SIZE_T SizeInBytes)
 {
-	LOG_NOT_IMPLEMENTED( );
+	LOG_NOT_IMPLEMENTED();
 	throw std::logic_error("Not implemented");
 }
 
@@ -1877,7 +1877,7 @@ void wd::device_context_x::CSSetShaderUserData(UINT StartSlot, UINT NumRegisters
 void wd::device_context_x::InsertWaitOnMemory(const void* pAddress, UINT Flags,
 	D3D11_COMPARISON_FUNC ComparisonFunction, UINT ReferenceValue, UINT Mask)
 {
-	LOG_NOT_IMPLEMENTED( );
+	LOG_NOT_IMPLEMENTED();
 	// FIXME: implement, stubbing this seems to be fine for now
 }
 
@@ -2041,7 +2041,7 @@ void wd::device_context_x::DrawIndexed(UINT64 StartIndexLocationAndIndexCount, I
 	UINT StartIndexLocation = static_cast<UINT>(StartIndexLocationAndIndexCount & 0xFFFFFFFF);
 	UINT IndexCount = static_cast<UINT>((StartIndexLocationAndIndexCount >> 32) & 0xFFFFFFFF);
 
-	ProcessDirtyFlags( );
+	ProcessDirtyFlags();
 	wrapped_interface->DrawIndexed(IndexCount, StartIndexLocation, BaseVertexLocation);
 }
 
@@ -2069,7 +2069,7 @@ void wd::device_context_x::DrawIndexedInstanced(UINT64 StartIndexLocationAndInde
 	UINT StartInstanceLocation = static_cast<UINT>((BaseVertexLocationAndStartInstanceLocation >> 32) &
 		0xFFFFFFFF);
 
-	ProcessDirtyFlags( );
+	ProcessDirtyFlags();
 	wrapped_interface->DrawIndexedInstanced(IndexCountPerInstance, InstanceCount, StartIndexLocation,
 										  BaseVertexLocation, StartInstanceLocation);
 }
@@ -2081,7 +2081,7 @@ void wd::device_context_x::DrawInstanced(UINT VertexCountPerInstance,
 	UINT StartInstanceLocation = static_cast<UINT>((StartVertexLocationAndStartInstanceLocation >> 32) &
 		0xFFFFFFFF);
 
-	ProcessDirtyFlags( );
+	ProcessDirtyFlags();
 	wrapped_interface->DrawInstanced(VertexCountPerInstance, InstanceCount, StartVertexLocation,
 								   StartInstanceLocation);
 }

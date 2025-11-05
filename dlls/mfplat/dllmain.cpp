@@ -306,7 +306,7 @@ extern "C" {
 	void fMFSerializePresentationDescriptor() { PA = mfplat.oMFSerializePresentationDescriptor; runASM(); }
 	void fMFShutdown() { PA = mfplat.oMFShutdown; runASM(); }
 
-	HRESULT fMFStartup( ULONG Version, DWORD dwFlags )
+	HRESULT fMFStartup(ULONG Version, DWORD dwFlags)
 	{
 		return reinterpret_cast<HRESULT(__stdcall*)(ULONG, ULONG)>(mfplat.oMFStartup)(MF_VERSION, dwFlags);
 	}

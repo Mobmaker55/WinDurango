@@ -98,10 +98,10 @@ HRESULT wd::dxgi_factory::CreateSwapChainForCoreWindow(IGraphicsUnknown* pDevice
 
 	if (pWindow == nullptr) {
 		Microsoft::WRL::ComPtr<ABI::Windows::UI::Core::ICoreWindowStatic> coreWindowStatic;
-		hr = RoGetActivationFactory(Microsoft::WRL::Wrappers::HStringReference(RuntimeClass_Windows_UI_Core_CoreWindow).Get( ), IID_PPV_ARGS(&coreWindowStatic));
+		hr = RoGetActivationFactory(Microsoft::WRL::Wrappers::HStringReference(RuntimeClass_Windows_UI_Core_CoreWindow).Get(), IID_PPV_ARGS(&coreWindowStatic));
 		if (FAILED(hr)) {
 			LOG_FATAL("CRITICAL: Failed to get CoreWindowStatic factory, hr=0x%08X\n", hr);
-			pRealDevice->Release( );
+			pRealDevice->Release();
 			return hr;
 		}
 
@@ -109,21 +109,21 @@ HRESULT wd::dxgi_factory::CreateSwapChainForCoreWindow(IGraphicsUnknown* pDevice
 		hr = coreWindowStatic->GetForCurrentThread(&coreWindow);
 		if (FAILED(hr) || !coreWindow) {
 			LOG_FATAL("CRITICAL: Failed to get CoreWindow for current thread, hr=0x%08X\n", hr);
-			pRealDevice->Release( );
+			pRealDevice->Release();
 			return FAILED(hr) ? hr : E_FAIL;
 		}
 
-		pWindow = coreWindow.Get( );
+		pWindow = coreWindow.Get();
 		hr = wrapped_interface->CreateSwapChainForCoreWindow(pRealDevice, pWindow, pDesc, pRestrictToOutput, &swap);
 		if (FAILED(hr)) {
 			LOG_FATAL("CRITICAL: CreateSwapChainForCoreWindow failed (null window path), hr=0x%08X\n", hr);
-			pRealDevice->Release( );
+			pRealDevice->Release();
 			return hr;
 		}
 
 		if (swap == nullptr) {
 			LOG_FATAL("CRITICAL: CreateSwapChainForCoreWindow succeeded but swap is null!\n");
-			pRealDevice->Release( );
+			pRealDevice->Release();
 			return E_FAIL;
 		}
 
@@ -134,20 +134,20 @@ HRESULT wd::dxgi_factory::CreateSwapChainForCoreWindow(IGraphicsUnknown* pDevice
 		CoreWindowWrapperX* windowWrapper = reinterpret_cast<CoreWindowWrapperX*>(pWindow);
 		if (windowWrapper == nullptr || windowWrapper->m_realWindow == nullptr) {
 			LOG_FATAL("CRITICAL: Invalid window wrapper or m_realWindow is null!\n");
-			pRealDevice->Release( );
+			pRealDevice->Release();
 			return E_INVALIDARG;
 		}
 
 		hr = wrapped_interface->CreateSwapChainForCoreWindow(pRealDevice, windowWrapper->m_realWindow, pDesc, pRestrictToOutput, &swap);
 		if (FAILED(hr)) {
 			LOG_FATAL("CRITICAL: CreateSwapChainForCoreWindow failed (wrapper window path), hr=0x%08X\n", hr);
-			pRealDevice->Release( );
+			pRealDevice->Release();
 			return hr;
 		}
 
 		if (swap == nullptr) {
 			LOG_FATAL("CRITICAL: CreateSwapChainForCoreWindow succeeded but swap is null!\n");
-			pRealDevice->Release( );
+			pRealDevice->Release();
 			return E_FAIL;
 		}
 
@@ -164,13 +164,13 @@ HRESULT wd::dxgi_factory::CreateSwapChainForCoreWindow(IGraphicsUnknown* pDevice
 		else {
 			wd::g_Overlay = new wd::Overlay(pRealDevice, ctx, swap);
 			if (wd::g_Overlay != nullptr) {
-				wd::g_Overlay->Initialize( );
+				wd::g_Overlay->Initialize();
 			}
 		}
 	}
 
 	// Clean up the reference we got from QueryInterface
-	pRealDevice->Release( );
+	pRealDevice->Release();
 
 	return hr;
 }
@@ -212,12 +212,12 @@ void wd::dxgi_factory::UnregisterOcclusionStatus(DWORD dwCookie)
 
 BOOL wd::dxgi_factory::IsCurrent()
 {
-	return wrapped_interface->IsCurrent( );
+	return wrapped_interface->IsCurrent();
 }
 
 BOOL wd::dxgi_factory::IsWindowedStereoEnabled()
 {
-	return wrapped_interface->IsWindowedStereoEnabled( );
+	return wrapped_interface->IsWindowedStereoEnabled();
 }
 
 HRESULT wd::dxgi_factory::EnumAdapters(UINT Adapter, wdi::IDXGIAdapter** ppAdapter)

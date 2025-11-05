@@ -34,7 +34,7 @@ namespace wd
 	class dxgi_adapter : public wdi::IDXGIAdapter
 	{
 	public:
-		dxgi_adapter(::IDXGIAdapter* adapter) : wrapped_interface(adapter) { wrapped_interface->AddRef( ); }
+		dxgi_adapter(::IDXGIAdapter* adapter) : wrapped_interface(adapter) { wrapped_interface->AddRef(); }
 
 		IGU_DEFINE_REF
 
@@ -43,7 +43,7 @@ namespace wd
 			if (riid == __uuidof(wdi::IDXGIAdapter))
 			{
 				*ppvObject = this;
-				AddRef( );
+				AddRef();
 				return S_OK;
 			}
 \

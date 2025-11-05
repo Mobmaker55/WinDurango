@@ -7,7 +7,7 @@ namespace winrt::Windows::Kinect::implementation
 {
     winrt::Windows::Kinect::KinectSensor KinectSensor::GetDefault()
     {
-        return winrt::make<KinectSensor>( );
+        return winrt::make<KinectSensor>();
     }
     winrt::Windows::Foundation::Collections::IObservableMap<hstring, winrt::Windows::Kinect::KinectSensor> KinectSensor::Sensors()
     {
