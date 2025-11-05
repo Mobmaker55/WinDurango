@@ -271,7 +271,7 @@ INT32 CoreApplicationWrapperX::_abi_Run(ABI::Windows::ApplicationModel::Core::IF
     }
 
     // Wrap the ViewSource and pass it to the original function
-    FrameworkViewSourceWrapper* wrappedViewSource = new FrameworkViewSourceWrapper(viewSource);
+    FrameworkViewSourceWrapper* wrappedViewSource = new (std::nothrow) FrameworkViewSourceWrapper(viewSource);
 
     if (!wrappedViewSource)
     {

@@ -15,7 +15,6 @@ HRESULT __stdcall FrameworkViewWrapper::Initialize(ABI::Windows::ApplicationMode
     {
         wprintf(L"Initialize failed with HRESULT=0x%08X\n", hr);
     }
-    wprintf(L"Initialized!!!");
     return hr;
 }
 
@@ -53,7 +52,6 @@ HRESULT __stdcall FrameworkViewWrapper::SetWindow(ABI::Windows::UI::Core::ICoreW
     {
         wprintf(L"SetWindow failed with HRESULT=0x%08X\n", hr);
     }
-    wprintf(L"WindowSet!!!");
 
     return hr;
 }
@@ -85,9 +83,7 @@ HRESULT __stdcall FrameworkViewWrapper::Run()
     try
     {
         wprintf(L"Entering Run()\n");
-
-        ComPtr<IFrameworkView> view = m_realView;
-        HRESULT hr = view->Run();
+        HRESULT hr = m_realView->Run();
 
         if (FAILED(hr))
         {

@@ -232,13 +232,13 @@ namespace winrt::Windows::Xbox::Input::implementation
         deltasumX += dx;
         deltasumY += dy;
         prev = pos;
-
+        
         int centerX = GetSystemMetrics(SM_CXSCREEN) / 2;
         int centerY = GetSystemMetrics(SM_CYSCREEN) / 2;
         SetCursorPos(centerX, centerY);
         prev.x = centerX;
         prev.y = centerY;
-
+        
         auto sign = [](float v) { return (v > 0) - (v < 0); };
         float x = -std::exp((-1.0f / 5.0f) * std::abs(deltasumX)) + 1.0f;
         float y = -std::exp((-1.0f / 5.0f) * std::abs(deltasumY)) + 1.0f;
