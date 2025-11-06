@@ -164,8 +164,6 @@ public:
     }
 };
 
-extern Config cfg;
-
 /*
 Usage Example:
 
