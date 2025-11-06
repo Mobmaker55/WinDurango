@@ -10,7 +10,7 @@ namespace winrt::Windows::Xbox::Input::implementation
     struct Gamepad : GamepadT<Gamepad>
     {
         Gamepad() = default;
-        Gamepad(uint64_t id) : m_id(id) {}
+        Gamepad(uint64_t id) : m_id(id), wdcfg(WinDurangoConfig::Instance()) {}
 
         static winrt::Windows::Foundation::Collections::IVectorView<winrt::Windows::Xbox::Input::IGamepad> Gamepads();
         static winrt::event_token GamepadAdded(winrt::Windows::Foundation::EventHandler<winrt::Windows::Xbox::Input::GamepadAddedEventArgs> const& handler);
@@ -37,6 +37,8 @@ namespace winrt::Windows::Xbox::Input::implementation
         float deltasumX = 0.0f;
         float deltasumY = 0.0f;
         bool firstFrame = true;
+        bool menuOpened = false;
+        WinDurangoConfig& wdcfg;
 
         inline static std::pair<WORD, GamepadButtons> const gamepadButtons[] =
         {
@@ -70,7 +72,7 @@ namespace winrt::Windows::Xbox::Input::implementation
             { VK_RCONTROL, GamepadButtons::RightShoulder },
             { VK_SPACE, GamepadButtons::A },
             { 'X', GamepadButtons::B},
-            { 'C', GamepadButtons::X },
+            { 'C', GamepadButtons::X},
             { 'V', GamepadButtons::Y},
         };
     };

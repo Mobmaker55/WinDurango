@@ -9,6 +9,7 @@
 #include <windowsx.h>
 #include <Xinput.h>
 #include "Windows.Xbox.System.User.h"
+#include "../WinDurangoConfig.h"
 
 namespace winrt::Windows::Xbox::Input::implementation
 {
@@ -185,6 +186,11 @@ namespace winrt::Windows::Xbox::Input::implementation
 			if (GetAsyncKeyState(keyboardButtons[ i ].first))
 			{
 				reading.Buttons |= keyboardButtons[ i ].second;
+                if (keyboardButtons[i].first == 'V') {
+                    //menuOpened = true;
+                } else if (keyboardButtons[i].first == 'X') {
+                    //menuOpened = false;
+                }
             }
             if (GetAsyncKeyState('W') & 0x8000) {
                 ly = 1.0f;
@@ -208,11 +214,21 @@ namespace winrt::Windows::Xbox::Input::implementation
             reading.LeftThumbstickY = ly;
         }        
 
-        if (GetAsyncKeyState(VK_LBUTTON) & 0x8000) {
-            reading.RightTrigger = 1.0f;
-        }
-        if (GetAsyncKeyState(VK_RBUTTON) & 0x8000) {
-            reading.LeftTrigger = 1.0f;
+        if (menuOpened && wdcfg.GetData().game == WinDurangoConfigData::Game::Minecraft) {
+            if (GetAsyncKeyState(VK_LBUTTON) & 0x8000) {
+                reading.Buttons |= keyboardButtons[VK_SPACE].second;
+                
+            }
+            if (GetAsyncKeyState(VK_RBUTTON) & 0x8000) {
+                reading.Buttons |= keyboardButtons['V'].second;
+            }
+        } else {
+            if (GetAsyncKeyState(VK_LBUTTON) & 0x8000) {
+                reading.RightTrigger = 1.0f;
+            }
+            if (GetAsyncKeyState(VK_RBUTTON) & 0x8000) {
+                reading.LeftTrigger = 1.0f;
+            }
         }
 
         /*
@@ -246,8 +262,13 @@ namespace winrt::Windows::Xbox::Input::implementation
         y *= -sign(deltasumY);
 
         if (x != 0 || y != 0) {
-            reading.RightThumbstickX = std::clamp(x, -1.0f, 1.0f);
-            reading.RightThumbstickY = std::clamp(y, -1.0f, 1.0f);
+            if (menuOpened && wdcfg.GetData().game == WinDurangoConfigData::Game::Minecraft) {
+                reading.LeftThumbstickX = std::clamp(x, -1.0f, 1.0f);
+                reading.LeftThumbstickY = std::clamp(y, -1.0f, 1.0f);
+            } else {
+                reading.RightThumbstickX = std::clamp(x, -1.0f, 1.0f);
+                reading.RightThumbstickY = std::clamp(y, -1.0f, 1.0f);
+            }
         }
 
         deltasumX = 0.0f;

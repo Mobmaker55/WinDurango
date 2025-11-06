@@ -66,10 +66,6 @@ void wd::Overlay::Initialize()
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
 
-<<<<<<< Updated upstream
-    io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\segoeui.ttf", 18.0f);
-    ImGui::StyleColorsDark();
-=======
     ImFont* mainFont = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\segoeui.ttf", 18.0f);
 
     ImFontConfig config;
@@ -81,7 +77,6 @@ void wd::Overlay::Initialize()
     // 3️⃣ Build the font atlas
     io.Fonts->Build( );
     ImGui::StyleColorsDark( );
->>>>>>> Stashed changes
 
     ImGui_ImplUwp_InitForCurrentView();
     ImGui_ImplDX11_Init(m_pDevice, m_pContext);
@@ -253,13 +248,8 @@ void wd::Overlay::Present()
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 }
 
-<<<<<<< Updated upstream
-void wd::Overlay::RenderKeyboardWindow()
-=======
 static int cursorPos = 0;
-
 void wd::Overlay::RenderKeyboardWindow( )
->>>>>>> Stashed changes
 {
     static bool isUppercase = false;
     static bool isSymbols = false;
@@ -279,37 +269,11 @@ void wd::Overlay::RenderKeyboardWindow( )
 
     const char** currentKeys = isSymbols ? symbols : keys;
 
-<<<<<<< Updated upstream
-    ImGuiIO& io = ImGui::GetIO();
-    ImGui::SetNextWindowSize(ImVec2(500, 330));
-    ImGui::SetNextWindowPos(ImVec2(io.DisplaySize.x * 0.5f, io.DisplaySize.y * 0.5f), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
-    ImGui::Begin("WinDurango Keyboard", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse);
-=======
     ImGuiIO& io = ImGui::GetIO( );
     ImVec2 displaySize = ImGui::GetIO( ).DisplaySize;
->>>>>>> Stashed changes
 
     ImGui::SetNextWindowPos(ImVec2(displaySize.x / 2, displaySize.y / 2), ImGuiCond_Always);
 
-<<<<<<< Updated upstream
-    if (ImGui::Button(isUppercase ? "Lowercase" : "Uppercase"))
-        isUppercase = !isUppercase;
-    ImGui::SameLine();
-    if (ImGui::Button(isSymbols ? "Letters" : "Symbols"))
-        isSymbols = !isSymbols;
-
-    ImGui::NewLine();
-    RenderKeyboardRow(currentKeys, 0, 12, isUppercase);
-    RenderKeyboardRow(currentKeys, 12, 24, isUppercase);
-    if (!isSymbols) RenderKeyboardRow(currentKeys, 24, 35, isUppercase);
-    else            RenderKeyboardRow(currentKeys, 24, 32, isUppercase);
-    if (!isSymbols) RenderKeyboardRow(currentKeys, 35, 44, isUppercase);
-
-    ImGui::NewLine();
-    HandleKeyboardSpecialKeys();
-
-    ImGui::End();
-=======
     ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar;
 
     ImGui::PushStyleColor(ImGuiCol_WindowBg, IM_COL32(0x05, 0x05, 0x05, 0xFF));
@@ -547,7 +511,6 @@ void wd::Overlay::RenderKeyboardWindow( )
     ImGui::PopStyleColor( );
     ImGui::End( );
     ImGui::PopStyleColor( );
->>>>>>> Stashed changes
 }
 
 void wd::Overlay::RenderKeyboardRow(const char** keys, int start, int end, bool isUppercase)
@@ -584,23 +547,9 @@ void wd::Overlay::HandleKeyboardSpecialKeys()
 
     if (ImGui::Button("##space", ImVec2((ImGui::GetContentRegionAvail( ).x - 63), 30)) || ImGui::IsKeyPressed(ImGuiKey_GamepadFaceUp))
         AddKeyToBuffer(' ');
-<<<<<<< Updated upstream
-    ImGui::SameLine();
-
-    if (ImGui::Button("Backspace", ImVec2(90, 30)) ||
-        ImGui::IsKeyPressed(ImGuiKey_Backspace) ||
-        ImGui::IsKeyPressed(ImGuiKey_GamepadFaceLeft))
-    {
-        size_t len = strlen(g_KeyboardText);
-        if (len > 0)
-            g_KeyboardText[ len - 1 ] = '\0';
-    }
-    ImGui::SameLine();
-=======
 
     ImVec2 pos = ImGui::GetItemRectMin( );
     ImVec2 size = ImGui::GetItemRectSize( );
->>>>>>> Stashed changes
 
     ImVec2 bigTextSize = ImGui::CalcTextSize("\xEE\x9D\x9D");
     ImGui::GetWindowDrawList( )->AddText(

@@ -1,6 +1,8 @@
 #pragma once
-
 #include "toml.hpp"
+#include <locale>
+#include <codecvt>
+#include <filesystem>
 
 struct WinDurangoConfigData
 {
@@ -14,6 +16,12 @@ struct WinDurangoConfigData
 		Adult,
 		Unknown
 	} ageGroup{ AgeGroup::Unknown };
+	enum class Game
+	{
+		Minecraft,
+		Forza_Horizon_2,
+		Unknown
+	} game{ Game::Unknown };
 };
 
 class WinDurangoConfig
@@ -33,7 +41,7 @@ private:
 	WinDurangoConfig();
 	~WinDurangoConfig() = default;
 
-	static void ProcessConfigFile();
+	void ProcessConfigFile();
 
 	WinDurangoConfigData _data{};
 

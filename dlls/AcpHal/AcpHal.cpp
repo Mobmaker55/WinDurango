@@ -8,7 +8,6 @@
 #include "contexts.h"
 #include <intsafe.h>
 #include <new>
-<<<<<<< Updated upstream
 //#include "../common/DebugLogger.h"
 
 static APU_HEAP g_ApuHeap = { 0 };
@@ -41,7 +40,6 @@ HRESULT AcpHalAllocateShapeContexts_X(SHAPE_CONTEXTS* ctx) {
 }
 
 
-<<<<<<< Updated upstream
 HRESULT AcpHalReleaseShapeContexts_X() {
     //DEBUG_LOG();
 
@@ -138,7 +136,6 @@ HRESULT __stdcall ApuCreateHeap_X(UINT32 cachedSizeInBytes, UINT32 nonCachedSize
 
 HRESULT __stdcall ApuHeapGetState_X(ApuHeapState* apuHeapState, UINT32 flags)
 {
-<<<<<<< Updated upstream
     //DEBUG_LOG();
 
     if (!apuHeapState)
@@ -158,7 +155,6 @@ bool ApuIsVirtualAddressValid_X(
          UINT32 physicalAlignmentInBytes
 )
 {
-<<<<<<< Updated upstream
     //DEBUG_LOG();
 
     if (!virtualAddress || physicalAlignmentInBytes == 0)
@@ -180,7 +176,6 @@ HRESULT ApuFree_X(void* virtualAddress)
 }
 
 APU_ADDRESS __stdcall ApuMapVirtualAddress_X(const void* virtualAddress) {
-<<<<<<< Updated upstream
     //DEBUG_LOG();
     return reinterpret_cast<APU_ADDRESS>(virtualAddress);
 }
@@ -189,7 +184,6 @@ void* ApuMapApuAddress_X(
          APU_ADDRESS apuPhysicalAddress
 )
 {
-<<<<<<< Updated upstream
     //DEBUG_LOG();
     return reinterpret_cast<void*>(apuPhysicalAddress);
 }
