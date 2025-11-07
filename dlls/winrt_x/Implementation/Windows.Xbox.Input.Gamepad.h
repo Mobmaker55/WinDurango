@@ -10,7 +10,28 @@ namespace winrt::Windows::Xbox::Input::implementation
     struct Gamepad : GamepadT<Gamepad>
     {
         Gamepad() = default;
-        Gamepad(uint64_t id) : m_id(id) {}
+        Gamepad(uint64_t id) : m_id(id), wdcfg(WinDurangoConfig::Instance()) {
+            keyboardButtons[0].first = wdcfg.GetData().Up;
+            keyboardButtons[1].first = wdcfg.GetData().Down;
+            keyboardButtons[2].first = wdcfg.GetData().Left;
+            keyboardButtons[3].first = wdcfg.GetData().Right;
+            keyboardButtons[4].first = wdcfg.GetData().Menu;
+            keyboardButtons[5].first = wdcfg.GetData().View;
+            keyboardButtons[6].first = wdcfg.GetData().LThumb;
+            keyboardButtons[7].first = wdcfg.GetData().RThumb;
+            keyboardButtons[8].first = wdcfg.GetData().LShoulder;
+            keyboardButtons[9].first = wdcfg.GetData().RShoulder;
+            keyboardButtons[10].first = wdcfg.GetData().A;
+            keyboardButtons[11].first = wdcfg.GetData().B;
+            keyboardButtons[12].first = wdcfg.GetData().X;
+            keyboardButtons[13].first = wdcfg.GetData().Y;
+            if (wdcfg.GetData().game == WinDurangoConfigData::Game::Minecraft) {
+                isMC = true;
+            }
+            else {
+                isMC = false;
+            }
+        }
 
         static winrt::Windows::Foundation::Collections::IVectorView<winrt::Windows::Xbox::Input::IGamepad> Gamepads();
         static winrt::event_token GamepadAdded(winrt::Windows::Foundation::EventHandler<winrt::Windows::Xbox::Input::GamepadAddedEventArgs> const& handler);
@@ -37,6 +58,12 @@ namespace winrt::Windows::Xbox::Input::implementation
         float deltasumX = 0.0f;
         float deltasumY = 0.0f;
         bool firstFrame = true;
+        bool menuOpened = false;
+        WinDurangoConfig& wdcfg;
+        bool isCtrl = false;
+        static int currNeed;
+        int currDone;
+        static bool isMC;
 
         inline static std::pair<WORD, GamepadButtons> const gamepadButtons[] =
         {
@@ -56,7 +83,7 @@ namespace winrt::Windows::Xbox::Input::implementation
             { XINPUT_GAMEPAD_Y, GamepadButtons::Y },
         };
         
-        inline static std::pair<WORD, GamepadButtons> const keyboardButtons[] =
+        inline static std::pair<WORD, GamepadButtons> keyboardButtons[] =
         {
             { VK_UP, GamepadButtons::DPadUp },
             { VK_DOWN, GamepadButtons::DPadDown },
@@ -64,14 +91,14 @@ namespace winrt::Windows::Xbox::Input::implementation
             { VK_RIGHT, GamepadButtons::DPadRight },
             { VK_RETURN, GamepadButtons::Menu },
             { VK_ESCAPE, GamepadButtons::View },
-            { VK_LSHIFT, GamepadButtons::LeftThumbstick },
-            { VK_RSHIFT, GamepadButtons::RightThumbstick },
+            { VK_RSHIFT, GamepadButtons::LeftThumbstick },
+            { VK_LSHIFT, GamepadButtons::RightThumbstick },
             { VK_LCONTROL, GamepadButtons::LeftShoulder },
             { VK_RCONTROL, GamepadButtons::RightShoulder },
             { VK_SPACE, GamepadButtons::A },
-            { 'X', GamepadButtons::B},
-            { 'C', GamepadButtons::X },
-            { 'V', GamepadButtons::Y},
+            { 'Q', GamepadButtons::B},
+            { 'R', GamepadButtons::X},
+            { 'E', GamepadButtons::Y},
         };
     };
 }

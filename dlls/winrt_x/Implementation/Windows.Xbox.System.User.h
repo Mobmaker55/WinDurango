@@ -6,7 +6,7 @@ namespace winrt::Windows::Xbox::System::implementation
     struct User : UserT<User>
     {
         User() = default;
-        User(uint64_t id) : m_id(id) {}
+        User(uint64_t id) : m_id(id), wdcfg(WinDurangoConfig::Instance()) {}
 
         static winrt::Windows::Xbox::System::UserOnlineState OnlineState();
         static winrt::event_token OnlineStateChanged(winrt::Windows::Foundation::EventHandler<winrt::Windows::Xbox::System::OnlineStateChangedEventArgs> const& handler);
@@ -58,6 +58,7 @@ namespace winrt::Windows::Xbox::System::implementation
 		inline static winrt::event<winrt::Windows::Foundation::EventHandler<winrt::Windows::Xbox::System::SignOutCompletedEventArgs>> m_signOutCompletedEvent;
         inline static winrt::Windows::Xbox::System::User staticUser = {nullptr};
 		inline static winrt::Windows::Foundation::Collections::IVector<winrt::Windows::Xbox::System::User> staticUsers = {nullptr};
+        WinDurangoConfig& wdcfg;
     };
 }
 namespace winrt::Windows::Xbox::System::factory_implementation

@@ -113,7 +113,23 @@ namespace winrt::Windows::Xbox::UI::implementation
     }
     winrt::Windows::Foundation::IAsyncOperation<hstring> SystemUI::ShowVirtualKeyboardWithOptionsAsync(winrt::Windows::Xbox::UI::KeyboardOptions options)
     {
-        LOG_NOT_IMPLEMENTED(); throw hresult_not_implemented();
+        /*
+        * TODO: Use Options
+        */
+        co_await resume_background();
+
+        if (!g_pD3D11XEventFunc && !g_pWDWaitForKeyboardFunc)
+        {
+            g_pD3D11XEventFunc = GetProcAddress(GetModuleHandle(L"d3d11_x.dll"), "WD11XNotify");
+            g_pWDWaitForKeyboardFunc = GetProcAddress(GetModuleHandle(L"d3d11_x.dll"), "WDWaitForKeyboard");
+        }
+
+        reinterpret_cast<void(__stdcall*)(int)>(g_pD3D11XEventFunc)(1);
+
+        const char* text = nullptr;
+        reinterpret_cast<void(__stdcall*)(const char**)>(g_pWDWaitForKeyboardFunc)(&text);
+
+        co_return winrt::to_hstring(text);
     }
     void SystemUI::SetNotificationPositionHint(winrt::Windows::Xbox::UI::NotificationPositionHint const& value)
     {
