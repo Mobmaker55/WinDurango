@@ -7,43 +7,54 @@ namespace winrt::Windows::Xbox::System::implementation
 	hstring UserDisplayInfo::Gamertag()
 	{
 		LOG_INFO("UserDisplayInfo::Gamertag() called");
-
-		return L"HelloWorld";
+		
+		return winrt::to_hstring(wdcfg.GetData().gamertag);
 	}
 
 	uint32_t UserDisplayInfo::GamerScore()
 	{
 		LOG_INFO("UserDisplayInfo::GamerScore() called");
 
-		return 0;
+		return wdcfg.GetData().gamerscore;
 	}
 
 	hstring UserDisplayInfo::ApplicationDisplayName()
 	{
 		LOG_INFO("UserDisplayInfo::GameDisplayName() called");
 
-		return to_hstring("WinDurango");
+		return winrt::to_hstring(wdcfg.GetData().gamertag);
 	}
 
 	hstring UserDisplayInfo::GameDisplayName()
 	{
 		LOG_INFO("UserDisplayInfo::GameDisplayName() called");
 
-		return L"HelloWorld";
+		return winrt::to_hstring(wdcfg.GetData().gamertag);
 	}
 
 	int32_t UserDisplayInfo::Reputation()
 	{
 		LOG_INFO("UserDisplayInfo::Reputation() called");
 
-		return 1;
+		return wdcfg.GetData().reputation;
 	}
 
 	UserAgeGroup UserDisplayInfo::AgeGroup()
 	{
 		LOG_INFO("UserDisplayInfo::AgeGroup() called");
 
-		return UserAgeGroup::Unknown;
+		switch (wdcfg.GetData().ageGroup) {
+			case WinDurangoConfigData::AgeGroup::Adult:
+				return UserAgeGroup::Adult;
+			case WinDurangoConfigData::AgeGroup::Child:
+				return UserAgeGroup::Child;
+			case WinDurangoConfigData::AgeGroup::Teen:
+				return UserAgeGroup::Teen;
+			case WinDurangoConfigData::AgeGroup::Unknown:
+				return UserAgeGroup::Unknown;
+			default:
+				return UserAgeGroup::Unknown;
+		}
 	}
 
 	Foundation::Collections::IVectorView<uint32_t> UserDisplayInfo::Privileges()
