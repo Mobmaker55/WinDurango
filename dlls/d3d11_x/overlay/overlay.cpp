@@ -334,8 +334,10 @@ void wd::Overlay::RenderKeyboardWindow( )
         ImGui::IsKeyPressed(ImGuiKey_Backspace) ||
         ImGui::IsKeyPressed(ImGuiKey_GamepadFaceLeft)) {
         size_t len = strlen(g_KeyboardText);
-        if (len > 0)
+        if (len > 0) {
             g_KeyboardText[ len - 1 ] = '\0';
+            cursorPos = max(0, cursorPos - 1);
+        }
     }
     ImVec2 posa = ImGui::GetItemRectMin( );
     ImVec2 sizea = ImGui::GetItemRectSize( );
