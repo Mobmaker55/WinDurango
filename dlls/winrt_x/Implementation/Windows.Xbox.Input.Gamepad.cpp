@@ -49,6 +49,19 @@ namespace winrt::Windows::Xbox::Input::implementation
         ClipCursor(&screenRect);
         ShowCursor(FALSE);
 
+
+        auto window = winrt::Windows::UI::Core::CoreWindow::GetForCurrentThread();
+        window.PointerWheelChanged(
+            winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::UI::Core::CoreWindow, winrt::Windows::UI::Core::PointerEventArgs>(
+                [&](winrt::Windows::UI::Core::CoreWindow const&, winrt::Windows::UI::Core::PointerEventArgs const& args)
+                {
+                    auto delta = args.CurrentPoint().Properties().MouseWheelDelta();
+                    scrollQueue.push_back(delta);
+                    OutputDebugString((L"Wheel delta: " + std::to_wstring(delta) + L"\n").c_str());
+                }
+            )
+        );
+
         return staticGamepads.GetView();
     }
 

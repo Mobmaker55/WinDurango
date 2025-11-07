@@ -39,6 +39,10 @@ namespace winrt::Windows::Xbox::Input::implementation
         bool firstFrame = true;
         bool menuOpened = false;
         WinDurangoConfig& wdcfg;
+        static std::vector<int> scrollQueue;
+        int currScroll = 0;
+        bool isCtrl = false;
+        int currDone = 0;
 
         inline static std::pair<WORD, GamepadButtons> const gamepadButtons[] =
         {
@@ -66,14 +70,14 @@ namespace winrt::Windows::Xbox::Input::implementation
             { VK_RIGHT, GamepadButtons::DPadRight },
             { VK_RETURN, GamepadButtons::Menu },
             { VK_ESCAPE, GamepadButtons::View },
-            { VK_LSHIFT, GamepadButtons::LeftThumbstick },
-            { VK_RSHIFT, GamepadButtons::RightThumbstick },
+            { VK_RSHIFT, GamepadButtons::LeftThumbstick },
+            { VK_LSHIFT, GamepadButtons::RightThumbstick },
             { VK_LCONTROL, GamepadButtons::LeftShoulder },
             { VK_RCONTROL, GamepadButtons::RightShoulder },
             { VK_SPACE, GamepadButtons::A },
-            { 'X', GamepadButtons::B},
-            { 'C', GamepadButtons::X},
-            { 'V', GamepadButtons::Y},
+            { 'Q', GamepadButtons::B},
+            { 'R', GamepadButtons::X},
+            { 'E', GamepadButtons::Y},
         };
     };
 }
