@@ -13,6 +13,9 @@
 
 namespace winrt::Windows::Xbox::Input::implementation
 {
+    int Gamepad::currNeed = 0;
+    bool Gamepad::isMC = false;
+
     winrt::Windows::Foundation::Collections::IVectorView<winrt::Windows::Xbox::Input::IGamepad> Gamepad::Gamepads()
     {
         if (staticGamepads == Foundation::Collections::IVector<winrt::Windows::Xbox::Input::IGamepad>(nullptr) || staticGamepads.Size() == 0) {
@@ -49,18 +52,20 @@ namespace winrt::Windows::Xbox::Input::implementation
         ClipCursor(&screenRect);
         ShowCursor(FALSE);
 
-
-        auto window = winrt::Windows::UI::Core::CoreWindow::GetForCurrentThread();
-        window.PointerWheelChanged(
-            winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::UI::Core::CoreWindow, winrt::Windows::UI::Core::PointerEventArgs>(
-                [&](winrt::Windows::UI::Core::CoreWindow const&, winrt::Windows::UI::Core::PointerEventArgs const& args)
-                {
-                    auto delta = args.CurrentPoint().Properties().MouseWheelDelta();
-                    scrollQueue.push_back(delta);
-                    OutputDebugString((L"Wheel delta: " + std::to_wstring(delta) + L"\n").c_str());
-                }
-            )
-        );
+        if (isMC) {
+            auto window = winrt::Windows::UI::Core::CoreWindow::GetForCurrentThread();
+            window.PointerWheelChanged(
+                winrt::Windows::Foundation::TypedEventHandler<winrt::Windows::UI::Core::CoreWindow, winrt::Windows::UI::Core::PointerEventArgs>(
+                    [&](winrt::Windows::UI::Core::CoreWindow const&, winrt::Windows::UI::Core::PointerEventArgs const& args)
+                    {
+                        auto delta = args.CurrentPoint().Properties().MouseWheelDelta();
+                        int scrollUnits = delta / 120.0f;
+                        Gamepad::currNeed += scrollUnits;
+                        LOG_INFO_W((L"Wheel delta: " + std::to_wstring(scrollUnits) + L"\n").c_str());
+                    }
+                )
+            );
+        }
 
         return staticGamepads.GetView();
     }
@@ -205,16 +210,16 @@ namespace winrt::Windows::Xbox::Input::implementation
                     //menuOpened = false;
                 }
             }
-            if (GetAsyncKeyState('W') & 0x8000) {
+            if (GetAsyncKeyState(wdcfg.GetData().MovementThumbY) & 0x8000) {
                 ly = 1.0f;
             }
-            if (GetAsyncKeyState('A') & 0x8000) {
+            if (GetAsyncKeyState(wdcfg.GetData().MovementThumbXM) & 0x8000) {
                 lx = -1.0f;
             }
-            if (GetAsyncKeyState('S') & 0x8000) {
+            if (GetAsyncKeyState(wdcfg.GetData().MovementThumbYM) & 0x8000) {
                 ly = -1.0f;
             }
-            if (GetAsyncKeyState('D') & 0x8000) {
+            if (GetAsyncKeyState(wdcfg.GetData().MovementThumbX) & 0x8000) {
                 lx = 1.0f;
             }
         }
@@ -223,23 +228,28 @@ namespace winrt::Windows::Xbox::Input::implementation
         ly = std::clamp(ly, -1.0f, 1.0f);
 
         if (lx != 0.0f || ly != 0.0f) {
-            reading.LeftThumbstickX = lx;
-            reading.LeftThumbstickY = ly;
+            if (wdcfg.GetData().MovementStick == "Left") {
+                reading.LeftThumbstickX = lx;
+                reading.LeftThumbstickY = ly;
+            } else if (wdcfg.GetData().MovementStick == "Right") {
+                reading.RightThumbstickX = lx;
+                reading.RightThumbstickY = ly;
+            }
         }        
 
         if (menuOpened && wdcfg.GetData().game == WinDurangoConfigData::Game::Minecraft) {
-            if (GetAsyncKeyState(VK_LBUTTON) & 0x8000) {
+            if (GetAsyncKeyState(wdcfg.GetData().RTrigger) & 0x8000) {
                 reading.Buttons |= keyboardButtons[VK_SPACE].second;
                 
             }
-            if (GetAsyncKeyState(VK_RBUTTON) & 0x8000) {
+            if (GetAsyncKeyState(wdcfg.GetData().LTrigger) & 0x8000) {
                 reading.Buttons |= keyboardButtons['V'].second;
             }
         } else {
-            if (GetAsyncKeyState(VK_LBUTTON) & 0x8000) {
+            if (GetAsyncKeyState(wdcfg.GetData().RTrigger) & 0x8000) {
                 reading.RightTrigger = 1.0f;
             }
-            if (GetAsyncKeyState(VK_RBUTTON) & 0x8000) {
+            if (GetAsyncKeyState(wdcfg.GetData().LTrigger) & 0x8000) {
                 reading.LeftTrigger = 1.0f;
             }
         }
@@ -276,16 +286,49 @@ namespace winrt::Windows::Xbox::Input::implementation
 
         if (x != 0 || y != 0) {
             if (menuOpened && wdcfg.GetData().game == WinDurangoConfigData::Game::Minecraft) {
-                reading.LeftThumbstickX = std::clamp(x, -1.0f, 1.0f);
-                reading.LeftThumbstickY = std::clamp(y, -1.0f, 1.0f);
+                if (wdcfg.GetData().MouseStick == "Right") {
+                    reading.LeftThumbstickX = std::clamp(x, -1.0f, 1.0f);
+                    reading.LeftThumbstickY = std::clamp(y, -1.0f, 1.0f);
+                }
+                else if (wdcfg.GetData().MouseStick == "Left") {
+                    reading.RightThumbstickX = std::clamp(x, -1.0f, 1.0f);
+                    reading.RightThumbstickY = std::clamp(y, -1.0f, 1.0f);
+                }
             } else {
-                reading.RightThumbstickX = std::clamp(x, -1.0f, 1.0f);
-                reading.RightThumbstickY = std::clamp(y, -1.0f, 1.0f);
+                if (wdcfg.GetData().MouseStick == "Right") {
+                    reading.RightThumbstickX = std::clamp(x, -1.0f, 1.0f);
+                    reading.RightThumbstickY = std::clamp(y, -1.0f, 1.0f);
+                }
+                else if (wdcfg.GetData().MouseStick == "Left") {
+                    reading.LeftThumbstickX = std::clamp(x, -1.0f, 1.0f);
+                    reading.LeftThumbstickY = std::clamp(y, -1.0f, 1.0f);
+                }
             }
         }
 
         deltasumX = 0.0f;
         deltasumY = 0.0f;
+
+        if (currNeed != 0) {
+            if (!isCtrl) {
+                isCtrl = true;
+                if (currNeed > 0) {
+                    reading.Buttons |= GamepadButtons::RightShoulder;
+                }
+                else if (currNeed < 0) {
+                    reading.Buttons |= GamepadButtons::LeftShoulder;
+                }
+            }
+            else {
+                isCtrl = false;
+                if (currNeed > 0) {
+                    currNeed--;
+                }
+                else if (currNeed < 0) {
+                    currNeed++;
+                }
+            }
+        }
 
         return reading;
     }

@@ -22,6 +22,28 @@ struct WinDurangoConfigData
 		Forza_Horizon_2,
 		Unknown
 	} game{ Game::Unknown };
+	int A = 0;
+	int B = 0;
+	int X = 0;
+	int Y = 0;
+	int Up = 0;
+	int Down = 0;
+	int Left = 0;
+	int Right = 0;
+	int Menu = 0;
+	int View = 0;
+	int LThumb = 0;
+	int RThumb = 0;
+	int LShoulder = 0;
+	int RShoulder = 0;
+	int LTrigger = 0;
+	int RTrigger = 0;
+	int MovementThumbY = 0;
+	int MovementThumbYM = 0;
+	int MovementThumbX = 0;
+	int MovementThumbXM = 0;
+	std::string MovementStick = "Left";
+	std::string MouseStick = "Right";
 };
 
 class WinDurangoConfig
