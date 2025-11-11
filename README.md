@@ -38,6 +38,10 @@ Currently, only **Minecraft: Xbox One Edition** runs with WinDurango.
 See the [Game compatibility list](https://windurango.github.io/Documentation/playable-games.html)
 for currently tracked games.
 
+## Getting Started
+
+Check out [Running Games With WinDurango](https://windurango.github.io/Running-a-Game) on our documentation.
+
 ## Releases
 
 Head over to the [releases page](https://github.com/WinDurango/WinDurango/releases) for stable builds.
@@ -55,10 +59,6 @@ illegal activity**. All information is obtained via reverse engineering of
 legally purchased devices and games and information made public on the internet
 (you'd be surprised what's indexed on Google...). We are not any way affiliated
 with Microsoft.
-
-## Building
-
-See [docs/BUILDING.md](docs/BUILDING.md) for setup instructions.
 
 ## Contributors Wanted!
 
